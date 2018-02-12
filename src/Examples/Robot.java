@@ -41,6 +41,8 @@ public class Robot {
       new Wall(moongale,1,7,Direction.SOUTH);
       new Wall(moongale,1,6,Direction.SOUTH);
       new Wall(moongale,1,5,Direction.SOUTH);
+      new Wall(moongale,0,5,Direction.SOUTH);
+      new Wall(moongale,0,6,Direction.SOUTH);
       
       
       // Create a thing
