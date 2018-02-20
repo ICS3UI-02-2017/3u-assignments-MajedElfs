@@ -71,6 +71,7 @@ public class Robot {
       majed.putThing();
       majed.move();
       
+      majed.countThingsInBackpack();
       
       majed.turnRight();
       majed.move(3);
