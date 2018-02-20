@@ -77,6 +77,8 @@ public class ChallengeQuestion {
         new Wall(moongale, 4, 4, Direction.SOUTH);
         new Wall(moongale, 4, 5, Direction.SOUTH);
 
+
+
         //Making the bottom driveway
         new Wall(moongale, 7, 3, Direction.NORTH);
         new Wall(moongale, 7, 4, Direction.NORTH);
@@ -108,28 +110,41 @@ public class ChallengeQuestion {
         new Thing(moongale, 2, 2);
         new Thing(moongale, 8, 2);
 
+
         //Making the first shovel bot be able to detect where snow is and taking them to the sidewalk
-        majed.move();
-        majed.turnLeft();
+          majed.move();
+          majed.turnLeft();
         while (majed.frontIsClear()) {
             majed.move();
             majed.turnLeft();
             if (majed.canPickThing() == true) {
                 majed.pickThing();
+            
             }
             
             while (!majed.frontIsClear()) {
                 majed.turnRight();
-                if (majed.getAvenue() == 2 && majed.getStreet() == 2) {
-                    majed.turnAround();
+            if (majed.getStreet()==0){
+                majed.putAllThings();
+                majed.move();
+                
                 
             
-                
+            }      
          }
             }
+        //Making the second shovel bot pick up the snow on the sidewalk and drop it at the end
+        if (majed.getStreet()==0){
+            cleany.move();
+            cleany.pickAllThings();
+            cleany.move(9);
+            if (!cleany.frontIsClear()){
+                cleany.putAllThings();
+            } 
         }
+        }
+        
 
 
 
     }
-}
