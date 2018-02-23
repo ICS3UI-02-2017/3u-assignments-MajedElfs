@@ -6,7 +6,7 @@ e) false
 f) true
 g) true
     2. Statement 1 and 2 do somewhat behave the same way. But, the second statement
-means that if there was no Thing for karel to pick up, then karel turns left.
+means that if there was no Thing for Karel to pick up, then Karel turns left.
 if there was a Thing, then it would turn right. It's exactly vice versa for
 statement 1. Therefore, the commands are pretty similar, but the commands are
 in a different order and there's a "!" for the second statement.
