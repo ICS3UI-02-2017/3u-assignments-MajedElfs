@@ -38,8 +38,15 @@ public class A3Q3 {
             majed.putThing();
             majed.move();
             majed.putThing();
-            if (majed.getAvenue()==5 && majed.getStreet()==)
+            majed.turnRight();
+            majed.move();
+            majed.putThing();
+            majed.turnRight();
+            majed.move();
+            }
             if (majed.getAvenue()==1 && majed.getStreet()==2){
+                majed.turnLeft();
+                majed.move();
                 majed.turnLeft();
                 majed.move();
             }
@@ -48,4 +55,4 @@ public class A3Q3 {
         }
                 
     }
-}
+
