@@ -18,17 +18,18 @@ public class A3Q3 {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        
+
         //Making a city
         City moongale = new City();
 
         //Making a robot
-        RobotSE majed = new RobotSE(moongale, 1, 1, Direction.EAST,20);
-        
+        RobotSE majed = new RobotSE(moongale, 1, 1, Direction.EAST, 20);
+
         //Making a new variable
-        int numberOfMoves = 2;
+        int numberOfMoves = 4;
         //Checking if there are any moves left
-        while (numberOfMoves >0){
+        while (numberOfMoves > 0) {
+            //Making robot do one row of seeds then turn around and turn left then repeat
             majed.putThing();
             majed.move();
             majed.putThing();
@@ -38,21 +39,14 @@ public class A3Q3 {
             majed.putThing();
             majed.move();
             majed.putThing();
-            majed.turnRight();
+            majed.turnAround();
+            majed.move(4);
+            majed.turnLeft();
             majed.move();
-            majed.putThing();
-            majed.turnRight();
-            majed.move();
-            }
-            if (majed.getAvenue()==1 && majed.getStreet()==2){
-                majed.turnLeft();
-                majed.move();
-                majed.turnLeft();
-                majed.move();
-            }
+            majed.turnLeft();
+            numberOfMoves = numberOfMoves - 1;
 
-            
         }
-                
-    }
 
+    }
+}
