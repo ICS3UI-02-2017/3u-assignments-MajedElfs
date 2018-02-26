@@ -64,7 +64,7 @@ public class A3Q4 {
         new Wall(moongale, 5, 4, Direction.SOUTH);
         new Wall(moongale, 5, 4, Direction.WEST);
 
-        //Making a new variable
+        //Making new variables
         int numberOfMoves = 4;
         //Making robot able to move in U-turn movements
         while (numberOfMoves > 0) {
