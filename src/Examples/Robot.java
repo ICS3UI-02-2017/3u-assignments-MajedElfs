@@ -88,6 +88,8 @@ public class Robot {
       if (majed.frontIsClear()){
           majed.move();
       }
-     
+     while (true){
+         majed.turnAround();
+     }
     }
 }

@@ -75,7 +75,7 @@ public class A3Q4 {
             majed.move(3);
             majed.turnLeft();
             numberOfMoves = numberOfMoves - 1;
-            //At ever end of the U-turn, robot will move 3 more steps
+            //At every end of the U-turn, robot will move 3 more steps
             if (majed.getAvenue() == 6 && majed.getStreet() == 3) {
                 majed.move(3);
             }
