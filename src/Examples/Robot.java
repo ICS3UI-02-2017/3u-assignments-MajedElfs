@@ -89,7 +89,15 @@ public class Robot {
           majed.move();
       }
      while (true){
-         majed.turnAround();
+         majed.move();
+         majed.turnRight();
+         majed.move(3);
+         majed.turnRight();
+         majed.move();
+         majed.turnRight();
+         majed.move(3);
+         majed.turnRight();
+         
      }
     }
 }
