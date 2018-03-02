@@ -17,15 +17,15 @@ public class A4Q3 {
      */
     public static void main(String[] args) {
         //Creating a scanner to read info
-        Scanner input = new Scanner (System.in);
+        Scanner input = new Scanner(System.in);
         System.out.println("Please enter in 4 numbers on seperate lines:");
         //Creating four strings for four numbers
         String n1 = input.nextLine();
         String n2 = input.nextLine();
         String n3 = input.nextLine();
         String n4 = input.nextLine();
-        
-        //
-     
+
+        System.out.println("Your numbers were " + n1 + " ," + n2 + " ," + n3 + " ,and " + n4);
+
     }
 }
