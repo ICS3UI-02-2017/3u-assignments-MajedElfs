@@ -23,19 +23,19 @@ public class A4Q6 {
         int speedlimit = input.nextInt();
         System.out.println("Enter the recorded speed of the car:");
         int cs = input.nextInt();
-        if (cs <= speedlimit){
+        if (cs <= speedlimit) {
             System.out.println("Congratulations, you are within the speed limit!");
         }
-        if (cs > speedlimit && cs+20 <= speedlimit){
+        if (cs > speedlimit && cs <= speedlimit + 20) {
             System.out.println("You are speeding and your fine is $100");
         }
-        if (cs+21 >= speedlimit && cs+30 <= speedlimit){
+        if (cs >= speedlimit + 21 && cs <= speedlimit + 30) {
             System.out.println("You are speeding and your fine is $270");
-    }
-        if (speedlimit >= cs+31){
+        }
+        if (speedlimit + 31 <= cs) {
             System.out.println("You are speeding and your fine is $500");
-}
-      
+        }
+
 
     }
 }

@@ -25,25 +25,25 @@ public class A4Q5 {
 
         //Asking for test marks
         System.out.println("What was the test out of?");
-        int t1 = input.nextInt();
+        double t1 = input.nextInt();
         System.out.println("What mark did you get?");
-        int m1 = input.nextInt();
+        double m1 = input.nextInt();
         System.out.println("What was the test out of?");
-        int t2 = input.nextInt();
+        double t2 = input.nextInt();
         System.out.println("What mark did you get?");
-        int m2 = input.nextInt();
+        double m2 = input.nextInt();
         System.out.println("What was the test out of?");
-        int t3 = input.nextInt();
+        double t3 = input.nextInt();
         System.out.println("What mark did you get?");
-        int m3 = input.nextInt();
+        double m3 = input.nextInt();
         System.out.println("What was the test out of?");
-        int t4 = input.nextInt();
+        double t4 = input.nextInt();
         System.out.println("What mark did you get?");
-        int m4 = input.nextInt();
+        double m4 = input.nextInt();
         System.out.println("What was the test out of?");
-        int t5 = input.nextInt();
+        double t5 = input.nextInt();
         System.out.println("What mark did you get?");
-        int m5 = input.nextInt();
+        double m5 = input.nextInt();
 
         //Doing math to get percentages
         double p1 = (m1 / t1) * 100;

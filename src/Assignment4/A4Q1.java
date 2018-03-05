@@ -21,9 +21,9 @@ public class A4Q1 {
         System.out.println("Hello, please enter your name!");
         //Make a String to store a name
         String name = input.nextLine();
-        
+
         //Making computer respond when given name
-        System.out.println("Hello " +name +"! How are you today?");
-        
+        System.out.println("Hello " + name + "! How are you today?");
+
     }
 }
