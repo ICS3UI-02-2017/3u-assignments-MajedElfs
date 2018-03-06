@@ -47,10 +47,25 @@ public class A4Q9 extends javax.swing.JFrame {
         });
 
         subButton.setText("Substitute");
+        subButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                subButtonActionPerformed(evt);
+            }
+        });
 
         multButton.setText("Multiply");
+        multButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                multButtonActionPerformed(evt);
+            }
+        });
 
         divButton.setText("Divide");
+        divButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                divButtonActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("First number:");
 
@@ -78,9 +93,9 @@ public class A4Q9 extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(addButton)
-                        .addGap(31, 31, 31)
+                        .addGap(34, 34, 34)
                         .addComponent(subButton)
-                        .addGap(40, 40, 40)
+                        .addGap(37, 37, 37)
                         .addComponent(multButton)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                 .addComponent(divButton)
@@ -104,9 +119,9 @@ public class A4Q9 extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 81, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(addButton)
-                    .addComponent(subButton)
                     .addComponent(multButton)
-                    .addComponent(divButton))
+                    .addComponent(divButton)
+                    .addComponent(subButton))
                 .addGap(25, 25, 25))
         );
 
@@ -116,10 +131,56 @@ public class A4Q9 extends javax.swing.JFrame {
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
         //Store the "number" in the string
         String numb1String = numberBox1.getText();
+        String numb2String = numberBox2.getText();
         //Convert the text into an integer
-        int numb1 = Integer.parseInt(numb1String);
-        int answer
+        double numb1 = Integer.parseInt(numb1String);
+        double numb2 = Integer.parseInt(numb2String);
+        //Making a total number
+        double answer = numb1 + numb2;
+        //Setting answer box to put answer
+        answerBox.setText("" + answer);
+
+
     }//GEN-LAST:event_addButtonActionPerformed
+
+    private void subButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subButtonActionPerformed
+        //Store the "number" in the string
+        String numb1String = numberBox1.getText();
+        String numb2String = numberBox2.getText();
+        //Convert the text into an integer
+        double numb1 = Integer.parseInt(numb1String);
+        double numb2 = Integer.parseInt(numb2String);
+        //Making a total number
+        double answer = numb1 - numb2;
+        //Setting answer box to put answer
+        answerBox.setText("" + answer);
+    }//GEN-LAST:event_subButtonActionPerformed
+
+    private void multButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_multButtonActionPerformed
+        //Store the "number" in the string
+        String numb1String = numberBox1.getText();
+        String numb2String = numberBox2.getText();
+        //Convert the text into an integer
+        double numb1 = Integer.parseInt(numb1String);
+        double numb2 = Integer.parseInt(numb2String);
+        //Making a total number
+        double answer = numb1 * numb2;
+        //Setting answer box to put answer
+        answerBox.setText("" + answer);
+    }//GEN-LAST:event_multButtonActionPerformed
+
+    private void divButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_divButtonActionPerformed
+        //Store the "number" in the string
+        String numb1String = numberBox1.getText();
+        String numb2String = numberBox2.getText();
+        //Convert the text into an integer
+        double numb1 = Integer.parseInt(numb1String);
+        double numb2 = Integer.parseInt(numb2String);
+        //Making a total number
+        double answer = numb1 / numb2;
+        //Setting answer box to put answer
+        answerBox.setText("" + answer);
+    }//GEN-LAST:event_divButtonActionPerformed
 
     /**
      * @param args the command line arguments

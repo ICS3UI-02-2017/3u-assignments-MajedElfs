@@ -42,9 +42,9 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="addButton" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
                       <Component id="subButton" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
                       <Component id="multButton" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -75,9 +75,9 @@
               <EmptySpace pref="81" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="addButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="subButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="multButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="divButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="subButton" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
           </Group>
@@ -97,16 +97,25 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Substitute"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="subButtonActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="multButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Multiply"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="multButtonActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="divButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Divide"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="divButtonActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="numberBox1">
     </Component>
