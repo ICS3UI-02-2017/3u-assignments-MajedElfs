@@ -21,7 +21,7 @@ public class piglatin {
         Scanner input = new Scanner(System.in);
         //Repeat the translation
         while(true){
-            //get the wrod to translate
+            //get the word to translate
             System.out.println("Enter a word to translate");
             String origWord = input.nextLine();
             //Sanitize the input
