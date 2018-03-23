@@ -32,20 +32,24 @@ public class A5 {
                 int length = origWord.length();
                 //Use a for loop to go through all the letters
                 for (int i = 0; i < length; i++) {
+                    
                     //Look at the character at position 'i' and is it a vowel?
                     if (origWord.charAt(i) == 'a' || origWord.charAt(i) == 'i' || origWord.charAt(i) == 'o'|| origWord.charAt(i) == 'e' || origWord.charAt(i) == 'u') {
-                        int index = origWord.indexOf(i);
-                        String transWord = 
+                        
+                                
+                                
                        
+                     
                         
-                        System.out.println("Translated: " +transWord);
-                        break;
                         
-                    }
+                        
+                                
                     
-                    }
+                    
                     
                 }
             }
         
     }
+    }
+}
