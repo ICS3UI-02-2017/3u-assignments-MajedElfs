@@ -1,10 +1,16 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Assignment5;
+
 import java.util.Scanner;
 
 /**
  *
  * @author hadim9637
  */
-public class Ubuduu {
+public class A5 {
 
     /**
      * @param args the command line arguments
@@ -40,7 +46,7 @@ public class Ubuduu {
                     //if character after is not a vowel.. print
                     while (origWord.charAt(i + 1) == 'a' || origWord.charAt(i + 1) == 'i' || origWord.charAt(i + 1) == 'o' || origWord.charAt(i + 1) == 'e' || origWord.charAt(i + 1) == 'u') {
                         transWord = transWord + origWord.charAt(i);
-                        
+                        //Moves on to the next letter
                         i++;
                         //To avoid exceeding beyond length of the original word
                         if(i+1 >= length){
@@ -61,4 +67,3 @@ public class Ubuduu {
         }
     }
 }
-
