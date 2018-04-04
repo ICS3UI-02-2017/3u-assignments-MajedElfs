@@ -41,21 +41,21 @@ public class A5 {
                     //If vowel is first letter, transword is blank so Ub will be first.
                     //If vowel is in middle or end of word, then it puts the current stored letters then Ub
                     transWord = transWord + "ub";
-                    
-                   if(i+1 < length){
-                    //if character after is not a vowel.. print
-                    while (origWord.charAt(i + 1) == 'a' || origWord.charAt(i + 1) == 'i' || origWord.charAt(i + 1) == 'o' || origWord.charAt(i + 1) == 'e' || origWord.charAt(i + 1) == 'u') {
-                        transWord = transWord + origWord.charAt(i);
-                        //Moves on to the next letter
-                        i++;
-                        //To avoid exceeding beyond length of the original word
-                        if(i+1 >= length){
-                            break;
-                        }
 
+                    if (i + 1 < length) {
+                        //if character after is not a vowel.. print
+                        while (origWord.charAt(i + 1) == 'a' || origWord.charAt(i + 1) == 'i' || origWord.charAt(i + 1) == 'o' || origWord.charAt(i + 1) == 'e' || origWord.charAt(i + 1) == 'u') {
+                            transWord = transWord + origWord.charAt(i);
+                            //Moves on to the next letter
+                            i++;
+                            //To avoid exceeding beyond length of the original word
+                            if (i + 1 >= length) {
+                                break;
+                            }
+
+                        }
                     }
-                   }
-                  
+
                 }
                 transWord = transWord + origWord.charAt(i);
                 //Moves on to the next letter

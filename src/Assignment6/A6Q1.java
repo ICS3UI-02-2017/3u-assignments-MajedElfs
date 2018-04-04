@@ -26,13 +26,15 @@ public class A6Q1 {
         int[] marks = new int[students];
         //Asking for marks
         System.out.println("Enter the marks:");
-
+        //Finding length of the array
+        int size = marks.length;
         //Adding all numbers together in the array
-        int sum = 0;
-        for(int i = 0; i < students;){
-            sum = sum + i;
+        double sum = 0;
+        for(int i = 0; i < marks.length;i++){
+            marks[i] = input.nextInt();
+            sum = sum + marks[i];
         }
-        System.out.println("Class average: " + sum/students);
+        System.out.println("Class average: " + sum/marks.length);
 
     }
 }
