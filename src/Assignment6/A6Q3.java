@@ -18,17 +18,31 @@ public class A6Q3 {
     public static void main(String[] args) {
         //Making a scanner
         Scanner input = new Scanner (System.in);
-        //Making a two integer array
-        int[] A = new int [2];
         //Asking for two numbers
         System.out.println("Enter two numbers to arrange:");
+        //Making a two integer array
+        int[] A = new int [2];
+        A[0] = input.nextInt();
+        A[1] = input.nextInt();
+        
         //For loop
         for (int i = 0; i < 2; i++){
-            if (A[1] < A[2]){
-                System.out.println("The integers in ascending order are:" +A);
+            if (A[0] < A[1]){
+                System.out.println("The integers in ascending order are: " +A[0]+", " +A[1]);
+                break;
+            }
+            if (A[0] > A[1]){
+                
+                
+                
+                
+                
+                
+                
+                
             }
         }
-        
+        }
         
     }
-}
+
