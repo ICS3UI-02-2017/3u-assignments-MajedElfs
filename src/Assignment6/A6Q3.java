@@ -25,12 +25,7 @@ public class A6Q3 {
         A[0] = input.nextInt();
         A[1] = input.nextInt();
         
-        //For loop
-        for (int i = 0; i < 2; i++){
-            if (A[0] < A[1]){
-                System.out.println("The integers in ascending order are: " +A[0]+", " +A[1]);
-                break;
-            }
+ 
             if (A[0] > A[1]){
                 
                 
@@ -41,7 +36,10 @@ public class A6Q3 {
                 
                 
             }
-        }
+       
+        
+        System.out.println("The integers in ascending order are: " +A[0]+", " +A[1]);
+        
         }
         
     }
