@@ -25,10 +25,12 @@ public class A6Q3 {
         A[0] = input.nextInt();
         A[1] = input.nextInt();
         
- 
+        //If bigger number is first, swap numbers
             if (A[0] > A[1]){
-                
-                
+                //Making temporary storage int
+                int temp = A[0];
+                A[0] = A[1];
+                A[1] = temp;
                 
                 
                 
