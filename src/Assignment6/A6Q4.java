@@ -30,7 +30,7 @@ public class A6Q4 {
         for (int i = 0; i < nums.length; i++) {
             //If bigger number is first, swap numbers
             if (i + 1 >= nums.length) {
-                    i = 0;
+                    break;
                 }
             
             if (nums[i] > nums[i + 1]) {
@@ -42,7 +42,7 @@ public class A6Q4 {
             }
         }
         System.out.println("Arranged numbers from lowest to highest: "
-                + nums[0] + ", " + nums[1] + ", " + nums[3] + ", " + nums[4] + ", "
+                + nums[0] + ", " + nums[1] + ", " +nums[2]+", " + nums[3] + ", " + nums[4] + ", "
                 + nums[5] + ", " + nums[6] + ", " + nums[7] + ", " + nums[8] + ", " + nums[9]);
 
 
