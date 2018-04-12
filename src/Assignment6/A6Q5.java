@@ -10,7 +10,7 @@ import java.util.Scanner;
  *
  * @author hadim9637
  */
-public class A6Q4 {
+public class A6Q5 {
 
     /**
      * @param args the command line arguments
@@ -19,14 +19,15 @@ public class A6Q4 {
         //Making a scanner
         Scanner input = new Scanner(System.in);
         //Asking for ten numbers
-        System.out.println("Enter ten numbers to arrange:");
-        //Making a ten integer array
-        int[] nums = new int[10];
-
-        //Storing ten numbers
+        System.out.println("Enter amount of marks to arrange:");
+        //Making an integer array
+        int[] nums = new int[input.nextInt()];
+        System.out.println("Enter marks:");
+        //Storing numbers
         for (int i = 0; i < nums.length; i++) {
             nums[i] = input.nextInt();
         }
+
         for (int i = 0; i < nums.length - 1; i++) {
             for (int j = i + 1; j < nums.length; j++) {
                 //If I is bigger than J, swap
@@ -35,10 +36,10 @@ public class A6Q4 {
                     nums[i] = nums[j];
                     nums[j] = temp;
                 }
+
             }
         }
-        System.out.println("Arranged numbers from lowest to highest: ");
-        //Printing all numbers
+        System.out.println("Arranged marks:");
         for (int i = 0; i < nums.length; i++) {
             int j = nums[i];
             //When printing last number, do not add a comma
