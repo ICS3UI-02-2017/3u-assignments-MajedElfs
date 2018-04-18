@@ -3,7 +3,6 @@
  * and open the template in the editor.
  */
 
-
 import java.util.Scanner;
 
 /**
@@ -40,20 +39,20 @@ public class A6Q6 {
 
             }
         }
-        
+
         int first = nums[0];
         int last = nums[nums.length - 1];
-        
+
         int total = 0;
-        
+
         for (int i = 0; i < nums.length; i++) {
             total = total + nums[i];
-            
+
         }
         int average = total / nums.length;
-        
-        System.out.println("Lowest mark in class: "+first);
-        System.out.println("Highest mark in class: "+last);
-        System.out.println("Average mark of class: "+average);
+
+        System.out.println("Lowest mark in class: " + first);
+        System.out.println("Highest mark in class: " + last);
+        System.out.println("Average mark of class: " + average);
     }
 }
