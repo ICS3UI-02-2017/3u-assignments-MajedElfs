@@ -3,13 +3,14 @@
  * and open the template in the editor.
  */
 
+
 import java.util.Scanner;
 
 /**
  *
  * @author hadim9637
  */
-public class A6Q5 {
+public class A6Q6 {
 
     /**
      * @param args the command line arguments
@@ -18,7 +19,7 @@ public class A6Q5 {
         //Making a scanner
         Scanner input = new Scanner(System.in);
         //Asking for ten numbers
-        System.out.println("Enter amount of marks to arrange:");
+        System.out.println("Enter size of class:");
         //Making an integer array
         int[] nums = new int[input.nextInt()];
         System.out.println("Enter marks:");
@@ -27,7 +28,7 @@ public class A6Q5 {
             nums[i] = input.nextInt();
         }
 
-
+        //Sorting numbers 
         for (int i = 0; i < nums.length - 1; i++) {
             for (int j = i + 1; j < nums.length; j++) {
                 //If I is bigger than J, swap
@@ -39,37 +40,20 @@ public class A6Q5 {
 
             }
         }
-
-
-        System.out.println("Arranged marks:");
+        
+        int first = nums[0];
+        int last = nums[nums.length - 1];
+        
+        int total = 0;
+        
         for (int i = 0; i < nums.length; i++) {
-            int j = nums[i];
-            //When printing last number, do not add a comma
-            if (i == nums.length - 1) {
-                System.out.print(+j + " ");
-                break;
-            }
-            System.out.print(+j + ", ");
-
+            total = total + nums[i];
+            
         }
-        //Makes space
-        System.out.println("");
-
-        //is array even?
-        if (nums.length % 2 == 0) {
-            //Find both middle numbers
-            int middle = nums[nums.length / 2];
-            int after = nums[(nums.length / 2) - 1];
-
-
-            //Find average of middle numbers
-            int total = (middle + after) / 2;
-            System.out.println("Median: " + total);
-
-        } else {
-            //If uneven number, find middle number and print it
-            System.out.println("Median: " + nums[(nums.length / 2) - 1]);
-        }
-
+        int average = total / nums.length;
+        
+        System.out.println("Lowest mark in class: "+first);
+        System.out.println("Highest mark in class: "+last);
+        System.out.println("Average mark of class: "+average);
     }
 }
