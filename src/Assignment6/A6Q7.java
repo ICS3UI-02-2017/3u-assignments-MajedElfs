@@ -3,7 +3,6 @@
  * and open the template in the editor.
  */
 
-
 import java.util.Scanner;
 
 /**
@@ -26,13 +25,14 @@ public class A6Q7 {
 
         }
 
-        // p represents amount of multiples we iterate through.
+        //p represents amount of multiples we go through.
         for (int p = 2; p < 100; p++) {
 
             //the numbers 
             for (int i = 2; i < nums.length; i++) {
 
                 int temp = i * p;
+                //Settings non-prime to 0 (to remove them)
                 if (temp <= 1000) {
                     nums[temp] = 0;
                 }

@@ -44,11 +44,13 @@ public class A6Q6 {
         int last = nums[nums.length - 1];
 
         int total = 0;
-
+        
+        //Adding all numbers together
         for (int i = 0; i < nums.length; i++) {
             total = total + nums[i];
 
         }
+        //Finding average
         int average = total / nums.length;
 
         System.out.println("Lowest mark in class: " + first);
