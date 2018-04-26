@@ -25,7 +25,7 @@ public class A7Q1 {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        
         //Asking for radius
         System.out.println("Enter radius:");
         //Making a scanner to read info
