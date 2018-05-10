@@ -48,7 +48,8 @@ public class A8Q1 extends JComponent implements ActionListener {
     Color sky = new Color (43, 187, 255);
     Color grass = new Color(28, 168, 58);
     Color eyePurple = new Color(74, 0, 114);
-
+    
+    int leafY = 100;
 
     // GAME VARIABLES END HERE    
 
@@ -246,6 +247,8 @@ public class A8Q1 extends JComponent implements ActionListener {
         int[]bodyY = {500,600,600};
         g.fillPolygon(bodyX, bodyY, 3);
         
+        g.setColor(Color.GREEN);
+        g.fillOval(100, leafY, 50, 50);
         // GAME DRAWING ENDS HERE
     }
 
@@ -259,7 +262,10 @@ public class A8Q1 extends JComponent implements ActionListener {
     // The main game loop
     // In here is where all the logic for my game will go
     public void gameLoop() {
-        
+        leafY = leafY + 5;
+        if(leafY > HEIGHT){
+            leafY = 0;
+        }
     }
 
     // Used to implement any of the Mouse Actions
