@@ -13,6 +13,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
+import static java.awt.image.ImageObserver.ERROR;
 import javax.swing.Timer;
 
 /**
@@ -42,6 +43,11 @@ public class A8Q1 extends JComponent implements ActionListener {
     //Creating a new colour
     Color skin = new Color(247, 215, 128);
     Color purple = new Color(182, 130, 255);
+    Color skinShade = new Color(232, 189, 62);
+    Color darkPurple = new Color (149, 2, 247);
+    Color sky = new Color (43, 187, 255);
+    Color grass = new Color(28, 168, 58);
+    Color eyePurple = new Color(74, 0, 114);
 
 
     // GAME VARIABLES END HERE    
@@ -88,6 +94,11 @@ public class A8Q1 extends JComponent implements ActionListener {
         g.clearRect(0, 0, WIDTH, HEIGHT);
 
         // GAME DRAWING GOES HERE
+        //Making background
+        g.setColor(sky);
+        g.fillRect(0, 0, 800, 600);
+        g.setColor(grass);
+        g.fillRect(0, 500, 800, 100);
         //Making face structure
         g.setColor(skin);
         g.fillOval(200, 80, 350, 425);
@@ -118,6 +129,8 @@ public class A8Q1 extends JComponent implements ActionListener {
         g.fillOval(430, 253, 25, 35);
         g.setColor(Color.BLACK);
         g.fillOval(435, 260, 35, 35);
+        g.setColor(eyePurple);
+        g.fillOval(445, 270, 15, 15);
         
         
         int [] polygonX2 = {75, 100, 90};
@@ -137,6 +150,8 @@ public class A8Q1 extends JComponent implements ActionListener {
         g.fillOval(55, 253, 25, 35);
         g.setColor(Color.BLACK);
         g.fillOval(60, 260, 35, 35);
+        g.setColor(eyePurple);
+        g.fillOval(70, 270, 15, 15);
         g2d.scale(-1, 1);
         g2d.translate(-375, 0);
         
@@ -148,6 +163,22 @@ public class A8Q1 extends JComponent implements ActionListener {
         int[]otherEarX = {250,50,275};
         int[]otherEarY = {260,260,350};
         g.fillPolygon(otherEarX, otherEarY, 3);
+        
+        //Making shading of neck
+        g.setColor(skinShade);
+        g.fillOval(335, 425, 100, 100);
+        g.setColor(skin);
+        g.fillRect(335, 425, 100, 20);
+        //Shading of face
+        g.setColor(skinShade);
+        g.fillOval(200, 300, 100, 100);
+        g.fillOval(460, 300, 100, 100);
+        
+        //Shading
+        g.setColor(skinShade);
+        int[]hoodShadeX = {380,430,460};
+        int[]hoodShadeY = {225,160,170};
+        g.fillPolygon(hoodShadeX, hoodShadeY, 3);
         
         //Making hood
         g.setColor(purple);
@@ -171,6 +202,50 @@ public class A8Q1 extends JComponent implements ActionListener {
         g.fillOval(375, 475, 75, 100);
 	g.fillOval(340, 475, 100, 100);	
         g.fillOval(320, 450, 75, 100);
+        g.fillOval(300, 425, 75, 100);
+        g.fillOval(280, 425, 75, 100);
+        g.fillOval(260, 400, 75, 100);
+        g.fillOval(240, 375, 75, 100);
+        g.fillOval(220, 350, 75, 100);
+        g.fillOval(200, 325, 75, 100);
+        g.fillOval(200, 300, 75, 100);
+        g.fillOval(200, 275, 75, 100);
+        g.fillOval(200, 250, 75, 100);
+        g.fillOval(200, 225, 75, 100);
+        g.fillOval(200, 200, 75, 100);
+        g.fillOval(200, 175, 75, 100);
+        g.fillOval(225, 150, 75, 100);
+        g.fillOval(225, 125, 75, 100);
+        g.fillOval(250, 125, 75, 100);
+        g.fillOval(250, 100, 75, 100);
+        g.fillOval(275, 100, 75, 100);
+        //Front hood design
+        g.setColor(darkPurple);
+        g.fillArc(330, 115, 100, 100, 35, 125);
+        
+        
+        //Making nose
+        g.setColor(skinShade);
+        int[]noseX = {380,370,390};
+        int[]noseY = {300,325,325};
+        g.fillPolygon(noseX, noseY, 3);
+        
+        //Making mouth
+        g.setColor(Color.BLACK);
+        g.drawLine(345, 380, 425, 380);
+        
+        //Making body
+        g.setColor(purple);
+        g.fillOval(150, 500, 500, 500);
+        g.fillOval(225, 500, 100, 100);
+        g.fillOval(210, 525, 100, 100);
+        g.fillOval(205, 550, 100, 100);
+        g.fillOval(425, 500, 100, 100);
+        g.setColor(darkPurple);
+        int[]bodyX = {390,320,450};
+        int[]bodyY = {500,600,600};
+        g.fillPolygon(bodyX, bodyY, 3);
+        
         // GAME DRAWING ENDS HERE
     }
 
