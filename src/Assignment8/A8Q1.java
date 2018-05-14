@@ -49,6 +49,9 @@ public class A8Q1 extends JComponent implements ActionListener {
     int leafX[] = {100, 400};
     int angle = 0;
     int amplitude = 100;
+    int eyeX = 435;
+    int anotherEyeX = 60;
+    
 
     // GAME VARIABLES END HERE    
     // Constructor to create the Frame and place the panel in
@@ -128,7 +131,7 @@ public class A8Q1 extends JComponent implements ActionListener {
         g.fillOval(427, 253, 25, 35);
         g.fillOval(430, 253, 25, 35);
         g.setColor(Color.BLACK);
-        g.fillOval(435, 260, 35, 35);
+        g.fillOval(eyeX, 260, 35, 35);
         g.setColor(eyePurple);
         g.fillOval(445, 270, 15, 15);
 
@@ -149,7 +152,7 @@ public class A8Q1 extends JComponent implements ActionListener {
         g.fillOval(52, 253, 25, 35);
         g.fillOval(55, 253, 25, 35);
         g.setColor(Color.BLACK);
-        g.fillOval(60, 260, 35, 35);
+        g.fillOval(anotherEyeX, 260, 35, 35);
         g.setColor(eyePurple);
         g.fillOval(70, 270, 15, 15);
         g2d.scale(-1, 1);
@@ -245,7 +248,7 @@ public class A8Q1 extends JComponent implements ActionListener {
         int[] bodyX = {390, 320, 450};
         int[] bodyY = {500, 600, 600};
         g.fillPolygon(bodyX, bodyY, 3);
-
+        //Making leaves
         g.setColor(Color.GREEN);
         for (int i = 0; i < 2; i++) {
             g.fillOval(leafX[i], leafY[i], 50, 50);
@@ -262,10 +265,23 @@ public class A8Q1 extends JComponent implements ActionListener {
     // The main game loop
     // In here is where all the logic for my game will go
     public void gameLoop() {
-        for (int i = 0; i < 100; i++) {
+       
+        
+            eyeX = eyeX - 1;
+            while (eyeX <= 432){
+                eyeX = eyeX + 5;
+                
+            }
+            
+            anotherEyeX = anotherEyeX - 1;
+            while (anotherEyeX <= 57){
+                anotherEyeX = anotherEyeX + 5;
+            }
             
             
-        }
+       
+        
+        
         for (int i = 0; i < 2; i++) {
             leafX[i] = leafX[i] + 5;
 
@@ -274,6 +290,8 @@ public class A8Q1 extends JComponent implements ActionListener {
             }
             int amount = (int) (amplitude * Math.sin(Math.toRadians(angle)));
             leafY[i] = leafYStart[i] + amount;
+            
+            
         }
 
         angle = angle + 2;
@@ -292,6 +310,7 @@ public class A8Q1 extends JComponent implements ActionListener {
         // if a mouse button has been pressed down
         @Override
         public void mousePressed(MouseEvent e) {
+            
         }
 
         // if a mouse button has been released
@@ -307,6 +326,8 @@ public class A8Q1 extends JComponent implements ActionListener {
         // if the mouse has moved positions
         @Override
         public void mouseMoved(MouseEvent e) {
+            
+            
         }
     }
 
@@ -316,6 +337,7 @@ public class A8Q1 extends JComponent implements ActionListener {
         // if a key has been pressed down
         @Override
         public void keyPressed(KeyEvent e) {
+            
         }
 
         // if a key has been released
