@@ -3,6 +3,7 @@ package FinalProject;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import java.awt.event.ActionEvent;
@@ -21,8 +22,8 @@ import javax.swing.Timer;
 public class FinalProject extends JComponent implements ActionListener {
 
     // Height and Width of our game
-    static final int WIDTH = 1250;
-    static final int HEIGHT = 1000;
+    static final int WIDTH = 1000;
+    static final int HEIGHT = 700;
 
     //Title of the window
     String title = "My Game";
@@ -39,7 +40,7 @@ public class FinalProject extends JComponent implements ActionListener {
 
     // YOUR GAME VARIABLES WOULD GO HERE
     Color grass = new Color (23, 183, 31);
-
+    Rectangle mainChar = new Rectangle(400,250,50,50);
 
     // GAME VARIABLES END HERE    
 
@@ -83,9 +84,9 @@ public class FinalProject extends JComponent implements ActionListener {
         g.clearRect(0, 0, WIDTH, HEIGHT);
 
         // GAME DRAWING GOES HERE
-        g.setColor(grass);
-        
-        g.fillRect(0, 0, 400, 100);
+        g.fillRect(0, 0, WIDTH, HEIGHT);
+        g.setColor(Color.WHITE);
+        g.fillRect(400,250,50,50);
 		
 		
         // GAME DRAWING ENDS HERE

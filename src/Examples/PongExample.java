@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -54,6 +55,14 @@ public class PongExample extends JComponent implements ActionListener {
     boolean paddle2Up = false;
     boolean paddle2Down = false;  
     int paddleSpeed = 5;
+    
+    //Player scores
+    int score1 = 0;
+    int score2 = 0;
+    
+    //Creating custom font
+    Font BiggerFont = new Font("arial",Font.BOLD,36);
+    
 
     // GAME VARIABLES END HERE    
 
@@ -107,6 +116,9 @@ public class PongExample extends JComponent implements ActionListener {
         g.fillRect(paddle2.x, paddle2.y, paddle2.width, paddle2.height);
         
         g.fillRect(ball.x,ball.y,ball.width,ball.height);
+        g.setFont(BiggerFont);
+        g.drawString(""+score1, WIDTH/2-50, 50);
+        g.drawString(""+score2, WIDTH/2+50, 50);
 		
         // GAME DRAWING ENDS HERE
     }
@@ -153,14 +165,51 @@ public class PongExample extends JComponent implements ActionListener {
         }else if(paddle2Down){
             paddle2.y = paddle2.y + paddleSpeed;
             
+            
+            if (paddle1.y<0){
+                paddle1.y=0;
+            }else if(paddle1.y + paddle1.height > HEIGHT){
+                paddle1.y = HEIGHT - paddle1.height;
+            }
+            
         }
     }
 
     private void checkForCollision() {
-        
+        //collision with bottom and top
+        if (ball.y < 0){
+            ballAngle = ballAngle * -1;
+        }
+        if (ball.y + ball.height > HEIGHT){
+            ballAngle = ballAngle * -1;
+        }
+        //Make sure we don't go over 360 degrees
+        if (ball.intersects(paddle1)){
+            ballAngle = (180 + ballAngle * -1) % 360;
+                    
+        }
+        if (ball.intersects(paddle2)){
+            ballAngle = (180 + ballAngle * -1) % 360;
+                    
+        }
     }
 
     private void checkForGoal() {
+        //ball goes on the left side
+        if (ball.x < 0){
+            //add to player 2 score
+            score2++;
+            ball.x = WIDTH/2 - ball.width/2;
+            ball.y = HEIGHT/2 - ball.height/2;
+            
+            if (ball.x + ball.width > WIDTH){
+                //add to player 1 score
+                score1++;
+            ball.x = WIDTH/2 - ball.width/2;
+            ball.y = HEIGHT/2 - ball.height/2;    
+            }
+            
+        }
         
     }
 
@@ -204,9 +253,9 @@ public class PongExample extends JComponent implements ActionListener {
             }else if(keyCode == KeyEvent.VK_S){
                 paddle1Down = true; 
             }
-            if (keyCode == KeyEvent.VK_W){
+            if (keyCode == KeyEvent.VK_UP){
                 paddle2Up = true;
-            }else if(keyCode == KeyEvent.VK_S){
+            }else if(keyCode == KeyEvent.VK_DOWN){
                 paddle2Down = true; 
             }
         }
@@ -220,9 +269,9 @@ int keyCode = e.getKeyCode();
             }else if(keyCode == KeyEvent.VK_S){
                 paddle1Down = false; 
             }
-            if (keyCode == KeyEvent.VK_W){
+            if (keyCode == KeyEvent.VK_UP){
                 paddle2Up = false;
-            }else if(keyCode == KeyEvent.VK_S){
+            }else if(keyCode == KeyEvent.VK_DOWN){
                 paddle2Down = false; 
             }
         }
