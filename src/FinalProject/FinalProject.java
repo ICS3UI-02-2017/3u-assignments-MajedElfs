@@ -24,30 +24,32 @@ public class FinalProject extends JComponent implements ActionListener {
     // Height and Width of our game
     static final int WIDTH = 1000;
     static final int HEIGHT = 700;
-
     //Title of the window
     String title = "My Game";
-
     // sets the framerate and delay for our game
     // this calculates the number of milliseconds per frame
     // you just need to select an approproate framerate
     int desiredFPS = 60;
     int desiredTime = Math.round((1000 / desiredFPS));
-    
     // timer used to run the game loop
     // this is what keeps our time running smoothly :)
     Timer gameTimer;
-
     // YOUR GAME VARIABLES WOULD GO HERE
-    Color grass = new Color (23, 183, 31);
-    Rectangle mainChar = new Rectangle(400,250,50,50);
+    Color grass = new Color(23, 183, 31);
+    Rectangle mainChar = new Rectangle(400, 350, 50, 50);
+    Rectangle enemy = new Rectangle (500,10,50,50);
+    //Control variables
+    boolean charRight = false;
+    boolean charLeft = false;
+    int charSpeed = 5;
+    int mobFallSpeed = 2;
+    int originalPosX = 500;
+    int originalPosY = 350;
 
     // GAME VARIABLES END HERE    
-
-    
     // Constructor to create the Frame and place the panel in
     // You will learn more about this in Grade 12 :)
-    public FinalProject(){
+    public FinalProject() {
         // creates a windows to show my game
         JFrame frame = new JFrame(title);
 
@@ -69,8 +71,8 @@ public class FinalProject extends JComponent implements ActionListener {
         this.addMouseMotionListener(m);
         this.addMouseWheelListener(m);
         this.addMouseListener(m);
-        
-        gameTimer = new Timer(desiredTime,this);
+
+        gameTimer = new Timer(desiredTime, this);
         gameTimer.setRepeats(true);
         gameTimer.start();
     }
@@ -84,11 +86,16 @@ public class FinalProject extends JComponent implements ActionListener {
         g.clearRect(0, 0, WIDTH, HEIGHT);
 
         // GAME DRAWING GOES HERE
+        g.setColor(Color.BLACK);
         g.fillRect(0, 0, WIDTH, HEIGHT);
+        g.setColor(Color.GRAY);
+        g.fillRect(0, 400, WIDTH, 650);
         g.setColor(Color.WHITE);
-        g.fillRect(400,250,50,50);
-		
-		
+        g.fillRect(mainChar.x, mainChar.y, mainChar.width, mainChar.height);
+        g.setColor(Color.RED);
+        g.fillRect(enemy.x, enemy.y, enemy.width, enemy.height);
+
+
         // GAME DRAWING ENDS HERE
     }
 
@@ -96,12 +103,39 @@ public class FinalProject extends JComponent implements ActionListener {
     // This is run before the game loop begins!
     public void preSetup() {
         // Any of your pre setup before the loop starts should go here
-
     }
 
     // The main game loop
     // In here is where all the logic for my game will go
     public void gameLoop() {
+        moveChar();
+        enemy();
+    }
+
+    private void moveChar() {
+        if (charRight){
+            mainChar.x = mainChar.x + charSpeed;
+        }else if (charLeft){
+            mainChar.x = mainChar.x - charSpeed;
+        }
+        
+        if(mainChar.x>WIDTH){
+            mainChar.x = WIDTH-mainChar.width;
+        }else if(mainChar.x<0){
+            mainChar.x = 0;
+        }
+    }
+
+    private void enemy() {
+        if(enemy.y<350){
+            enemy.y = enemy.y + mobFallSpeed;
+        }
+        if(enemy.y == originalPosY && enemy.x <= originalPosX -30){
+            enemy.x--;
+        }
+        if (enemy.x == originalPosX + 30){
+            enemy.x--;
+        }
         
     }
 
@@ -111,25 +145,21 @@ public class FinalProject extends JComponent implements ActionListener {
         // if a mouse button has been pressed down
         @Override
         public void mousePressed(MouseEvent e) {
-
         }
 
         // if a mouse button has been released
         @Override
         public void mouseReleased(MouseEvent e) {
-
         }
 
         // if the scroll wheel has been moved
         @Override
         public void mouseWheelMoved(MouseWheelEvent e) {
-
         }
 
         // if the mouse has moved positions
         @Override
         public void mouseMoved(MouseEvent e) {
-
         }
     }
 
@@ -139,12 +169,24 @@ public class FinalProject extends JComponent implements ActionListener {
         // if a key has been pressed down
         @Override
         public void keyPressed(KeyEvent e) {
+            int keyCode = e.getKeyCode();
+            if (keyCode == KeyEvent.VK_RIGHT) {
+                charRight = true;
+            } else if (keyCode == KeyEvent.VK_LEFT) {
+                charLeft = true;
+            }
 
         }
 
         // if a key has been released
         @Override
         public void keyReleased(KeyEvent e) {
+            int keyCode = e.getKeyCode();
+            if (keyCode == KeyEvent.VK_RIGHT) {
+                charRight = false;
+            } else if (keyCode == KeyEvent.VK_LEFT) {
+                charLeft = false;
+            }
 
         }
     }
@@ -164,4 +206,3 @@ public class FinalProject extends JComponent implements ActionListener {
         FinalProject game = new FinalProject();
     }
 }
-
