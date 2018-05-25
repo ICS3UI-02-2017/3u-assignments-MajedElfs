@@ -2,6 +2,7 @@ package FinalProject;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import javax.swing.JComponent;
@@ -37,14 +38,30 @@ public class FinalProject extends JComponent implements ActionListener {
     // YOUR GAME VARIABLES WOULD GO HERE
     Color grass = new Color(23, 183, 31);
     Rectangle mainChar = new Rectangle(400, 350, 50, 50);
-    Rectangle enemy = new Rectangle (500,10,50,50);
+    Rectangle enemy = new Rectangle(500, 10, 50, 50);
     //Control variables
     boolean charRight = false;
     boolean charLeft = false;
+    //Speed of Character
     int charSpeed = 5;
+    //Monster's fall speed
     int mobFallSpeed = 2;
     int originalPosX = 500;
     int originalPosY = 350;
+    boolean movingRight = true;
+    int stopPosLeft = enemy.x - 100;
+    int stopPosRight = enemy.x + 100;
+    int health = 3;
+    Font BiggerFont = new Font("arial",Font.BOLD,36);
+    //Getting hit (flashing)
+    long flashUntil = System.currentTimeMillis();
+    int flashDelay = 50;
+    boolean flash = false;
+    //Temporary game over screen
+    String gameOver = new String("Game Over");
+    //Hitting
+    boolean hitting = false;
+
 
     // GAME VARIABLES END HERE    
     // Constructor to create the Frame and place the panel in
@@ -94,6 +111,19 @@ public class FinalProject extends JComponent implements ActionListener {
         g.fillRect(mainChar.x, mainChar.y, mainChar.width, mainChar.height);
         g.setColor(Color.RED);
         g.fillRect(enemy.x, enemy.y, enemy.width, enemy.height);
+        g.setFont(BiggerFont);
+        g.drawString(""+health, 50, 50);
+        if (flash){
+            g.setColor(Color.RED);
+            g.fillRect(0, 0, WIDTH, HEIGHT);
+        }
+        if (health <= 0){
+            g.clearRect(0, 0, WIDTH, HEIGHT);
+            g.setFont(BiggerFont);
+            g.drawString(gameOver, 400, 350);
+        }
+        
+        
 
 
         // GAME DRAWING ENDS HERE
@@ -110,33 +140,65 @@ public class FinalProject extends JComponent implements ActionListener {
     public void gameLoop() {
         moveChar();
         enemy();
+        collision();
+        healthBar();
     }
 
     private void moveChar() {
-        if (charRight){
+        if (charRight) {
             mainChar.x = mainChar.x + charSpeed;
-        }else if (charLeft){
+        } else if (charLeft) {
             mainChar.x = mainChar.x - charSpeed;
         }
-        
-        if(mainChar.x>WIDTH){
-            mainChar.x = WIDTH-mainChar.width;
-        }else if(mainChar.x<0){
+
+        if (mainChar.x > WIDTH) {
+            mainChar.x = WIDTH - mainChar.width;
+        } else if (mainChar.x < 0) {
             mainChar.x = 0;
         }
     }
 
     private void enemy() {
-        if(enemy.y<350){
+        //Causes the enemy to fall
+        if (enemy.y < 350) {
             enemy.y = enemy.y + mobFallSpeed;
         }
-        if(enemy.y == originalPosY && enemy.x <= originalPosX -30){
+        if (movingRight) {
+            enemy.x++;
+        } else {
             enemy.x--;
         }
-        if (enemy.x == originalPosX + 30){
-            enemy.x--;
+        if (enemy.x == stopPosRight) {
+            movingRight = false;
+        } else if (enemy.x == stopPosLeft) {
+            movingRight = true;
+        }
+
+    }
+
+    private void collision() {
+        
+    }
+
+    private void healthBar() {
+        if (mainChar.intersects(enemy)) {
+            health--;
+            //If enemy is on the right of the main char and is touched, bounce back
+            if (enemy.x>mainChar.x){
+                mainChar.x = mainChar.x - 50;
+            }//If enemy is on the left of the main char and is touched, bounce back
+            else if (enemy.x<mainChar.x){
+               mainChar.x = mainChar.x + 50; 
+            }
+            
+            flash = true;
+            flashUntil = System.currentTimeMillis() + flashDelay;
         }
         
+        if(System.currentTimeMillis() > flashUntil){
+            flash = false;
+        }
+       
     }
 
     // Used to implement any of the Mouse Actions
@@ -175,6 +237,9 @@ public class FinalProject extends JComponent implements ActionListener {
             } else if (keyCode == KeyEvent.VK_LEFT) {
                 charLeft = true;
             }
+            if (keyCode ==KeyEvent.VK_SPACE){
+                
+            }
 
         }
 
@@ -186,6 +251,9 @@ public class FinalProject extends JComponent implements ActionListener {
                 charRight = false;
             } else if (keyCode == KeyEvent.VK_LEFT) {
                 charLeft = false;
+            }
+            if (keyCode ==KeyEvent.VK_SPACE){
+                hitting = true;
             }
 
         }
