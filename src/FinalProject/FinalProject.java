@@ -39,6 +39,8 @@ public class FinalProject extends JComponent implements ActionListener {
     Color grass = new Color(23, 183, 31);
     Rectangle mainChar = new Rectangle(400, 350, 50, 50);
     Rectangle enemy = new Rectangle(500, 10, 50, 50);
+    Rectangle sword = new Rectangle (mainChar.x,mainChar.y+15,50,10);
+    
     //Control variables
     boolean charRight = false;
     boolean charLeft = false;
@@ -57,10 +59,15 @@ public class FinalProject extends JComponent implements ActionListener {
     long flashUntil = System.currentTimeMillis();
     int flashDelay = 50;
     boolean flash = false;
+    boolean facingLeft = false;
     //Temporary game over screen
     String gameOver = new String("Game Over");
     //Hitting
     boolean hitting = false;
+    //Jumping
+    boolean jumping = false;
+    //Adding gravity
+    int gravity = 4;
 
 
     // GAME VARIABLES END HERE    
@@ -107,8 +114,13 @@ public class FinalProject extends JComponent implements ActionListener {
         g.fillRect(0, 0, WIDTH, HEIGHT);
         g.setColor(Color.GRAY);
         g.fillRect(0, 400, WIDTH, 650);
+//        g.setColor(Color.YELLOW);
+//        g.fillRect(mainChar.x, mainChar.y+15, sword.width, sword.height);
+        
         g.setColor(Color.WHITE);
         g.fillRect(mainChar.x, mainChar.y, mainChar.width, mainChar.height);
+        g.setColor(Color.YELLOW);
+        g.fillRect(sword.x, sword.y+15, sword.width, sword.height);
         g.setColor(Color.RED);
         g.fillRect(enemy.x, enemy.y, enemy.width, enemy.height);
         g.setFont(BiggerFont);
@@ -140,8 +152,10 @@ public class FinalProject extends JComponent implements ActionListener {
     public void gameLoop() {
         moveChar();
         enemy();
-        collision();
+        swordCollision();
         healthBar();
+        jump();
+        gravityOfChar();
     }
 
     private void moveChar() {
@@ -163,6 +177,7 @@ public class FinalProject extends JComponent implements ActionListener {
         if (enemy.y < 350) {
             enemy.y = enemy.y + mobFallSpeed;
         }
+        //Makes the enemy roam right and left
         if (movingRight) {
             enemy.x++;
         } else {
@@ -176,11 +191,26 @@ public class FinalProject extends JComponent implements ActionListener {
 
     }
 
-    private void collision() {
+    private void swordCollision() {
+        if (hitting && sword.x <= mainChar.x+20){
+            sword.x++;
+            
+        
+        }
+        if (sword.x >mainChar.x + 20){
+            sword.x--;
+        }
+        if (facingLeft){
+            sword.x = sword.x - 10;
+        }else if (!facingLeft){
+            sword.x = mainChar.x;
+        }
+        
         
     }
 
     private void healthBar() {
+        //If character is touching enemy, lose one health
         if (mainChar.intersects(enemy)) {
             health--;
             //If enemy is on the right of the main char and is touched, bounce back
@@ -199,6 +229,20 @@ public class FinalProject extends JComponent implements ActionListener {
             flash = false;
         }
        
+    }
+
+    private void jump() {
+        if (jumping){
+            mainChar.y = mainChar.y + gravity;
+        }
+        
+    }
+
+    private void gravityOfChar() {
+        if (mainChar.y <350){
+            mainChar.y = mainChar.y + gravity;
+        }
+            
     }
 
     // Used to implement any of the Mouse Actions
@@ -234,12 +278,17 @@ public class FinalProject extends JComponent implements ActionListener {
             int keyCode = e.getKeyCode();
             if (keyCode == KeyEvent.VK_RIGHT) {
                 charRight = true;
+                facingLeft = false;
             } else if (keyCode == KeyEvent.VK_LEFT) {
                 charLeft = true;
+                facingLeft = true;
             }
-            if (keyCode ==KeyEvent.VK_SPACE){
-                
+            if (keyCode == KeyEvent.VK_UP){
+                jumping = true;
             }
+            
+            
+            
 
         }
 
@@ -249,11 +298,17 @@ public class FinalProject extends JComponent implements ActionListener {
             int keyCode = e.getKeyCode();
             if (keyCode == KeyEvent.VK_RIGHT) {
                 charRight = false;
+                facingLeft = false;
             } else if (keyCode == KeyEvent.VK_LEFT) {
                 charLeft = false;
+                facingLeft = true;
             }
+            
             if (keyCode ==KeyEvent.VK_SPACE){
                 hitting = true;
+            }
+            if (keyCode == KeyEvent.VK_UP){
+                jumping = false;
             }
 
         }
