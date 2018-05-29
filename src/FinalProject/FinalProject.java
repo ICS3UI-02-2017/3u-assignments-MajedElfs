@@ -39,7 +39,7 @@ public class FinalProject extends JComponent implements ActionListener {
     Color grass = new Color(23, 183, 31);
     Rectangle mainChar = new Rectangle(400, 350, 50, 50);
     Rectangle enemy = new Rectangle(500, 10, 50, 50);
-    Rectangle sword = new Rectangle (mainChar.x,mainChar.y+15,50,10);
+    Rectangle sword = new Rectangle (mainChar.x+50,mainChar.y+15,50,10);
     
     //Control variables
     boolean charRight = false;
@@ -64,10 +64,13 @@ public class FinalProject extends JComponent implements ActionListener {
     String gameOver = new String("Game Over");
     //Hitting
     boolean hitting = false;
+    boolean swordApperance = false;
     //Jumping
     boolean jumping = false;
+    boolean onGround = true;
     //Adding gravity
-    int gravity = 4;
+    int gravity = 1;
+    int velocity = 0;
 
 
     // GAME VARIABLES END HERE    
@@ -119,8 +122,24 @@ public class FinalProject extends JComponent implements ActionListener {
         
         g.setColor(Color.WHITE);
         g.fillRect(mainChar.x, mainChar.y, mainChar.width, mainChar.height);
-        g.setColor(Color.YELLOW);
-        g.fillRect(sword.x, sword.y+15, sword.width, sword.height);
+        //If hitting, make sword appear
+        if (swordApperance){
+            g.setColor(Color.YELLOW);
+            //Sword
+           g.fillRect(mainChar.x+50,mainChar.y+15, sword.width, sword.height); 
+        }else if (!swordApperance){
+            
+        }
+       
+           
+           //Wait a few seconds
+           
+           //Delete the sword
+           
+           
+        
+        
+        
         g.setColor(Color.RED);
         g.fillRect(enemy.x, enemy.y, enemy.width, enemy.height);
         g.setFont(BiggerFont);
@@ -155,7 +174,8 @@ public class FinalProject extends JComponent implements ActionListener {
         swordCollision();
         healthBar();
         jump();
-        gravityOfChar();
+        
+        collisionWithGround();
     }
 
     private void moveChar() {
@@ -192,19 +212,17 @@ public class FinalProject extends JComponent implements ActionListener {
     }
 
     private void swordCollision() {
-        if (hitting && sword.x <= mainChar.x+20){
-            sword.x++;
+        
+        if (hitting){
+            swordApperance = true;
+            if (swordApperance){
+                
+            }
+            
             
         
         }
-        if (sword.x >mainChar.x + 20){
-            sword.x--;
-        }
-        if (facingLeft){
-            sword.x = sword.x - 10;
-        }else if (!facingLeft){
-            sword.x = mainChar.x;
-        }
+        
         
         
     }
@@ -232,17 +250,27 @@ public class FinalProject extends JComponent implements ActionListener {
     }
 
     private void jump() {
-        if (jumping){
-            mainChar.y = mainChar.y + gravity;
+        velocity = velocity + gravity;
+        if (jumping && onGround){
+            velocity= -15;
+            onGround=false;
+        }
+        mainChar.y = mainChar.y + velocity;
+        if (mainChar.y >=350){
+            onGround=true;
         }
         
     }
 
-    private void gravityOfChar() {
-        if (mainChar.y <350){
-            mainChar.y = mainChar.y + gravity;
-        }
+    
             
+    
+
+    private void collisionWithGround() {
+        if (mainChar.y>350){
+            mainChar.y = 350;
+        }
+        
     }
 
     // Used to implement any of the Mouse Actions
@@ -285,7 +313,10 @@ public class FinalProject extends JComponent implements ActionListener {
             }
             if (keyCode == KeyEvent.VK_UP){
                 jumping = true;
+                swordApperance = true;
+               
             }
+            
             
             
             
@@ -306,10 +337,13 @@ public class FinalProject extends JComponent implements ActionListener {
             
             if (keyCode ==KeyEvent.VK_SPACE){
                 hitting = true;
+                swordApperance = false;
             }
-            if (keyCode == KeyEvent.VK_UP){
+             if (keyCode == KeyEvent.VK_UP){
                 jumping = false;
+               
             }
+            
 
         }
     }
