@@ -39,6 +39,7 @@ public class FinalProject extends JComponent implements ActionListener {
     Color grass = new Color(23, 183, 31);
     Rectangle mainChar = new Rectangle(400, 350, 50, 50);
     Rectangle enemy = new Rectangle(500, 10, 50, 50);
+    Rectangle eliteEnemy = new Rectangle(500, -50, 75, 75);
     Rectangle sword = new Rectangle (mainChar.x+50,mainChar.y+15,50,10);
     
     //Control variables
@@ -53,7 +54,9 @@ public class FinalProject extends JComponent implements ActionListener {
     boolean movingRight = true;
     int stopPosLeft = enemy.x - 100;
     int stopPosRight = enemy.x + 100;
+    //Score and Health
     int health = 3;
+    int score = 0;
     Font BiggerFont = new Font("arial",Font.BOLD,36);
     //Getting hit (flashing)
     long flashUntil = System.currentTimeMillis();
@@ -65,6 +68,7 @@ public class FinalProject extends JComponent implements ActionListener {
     //Hitting
     boolean hitting = false;
     boolean swordApperance = false;
+    int swordPosLeft = mainChar.x-50;
     //Jumping
     boolean jumping = false;
     boolean onGround = true;
@@ -117,33 +121,34 @@ public class FinalProject extends JComponent implements ActionListener {
         g.fillRect(0, 0, WIDTH, HEIGHT);
         g.setColor(Color.GRAY);
         g.fillRect(0, 400, WIDTH, 650);
-//        g.setColor(Color.YELLOW);
-//        g.fillRect(mainChar.x, mainChar.y+15, sword.width, sword.height);
+
         
         g.setColor(Color.WHITE);
         g.fillRect(mainChar.x, mainChar.y, mainChar.width, mainChar.height);
         //If hitting, make sword appear
-        if (swordApperance){
+        if (swordApperance && !facingLeft){
             g.setColor(Color.YELLOW);
             //Sword
            g.fillRect(mainChar.x+50,mainChar.y+15, sword.width, sword.height); 
-        }else if (!swordApperance){
-            
+           sword.x=mainChar.x+50;
+           sword.y = mainChar.y+15;
+                  
         }
-       
-           
-           //Wait a few seconds
-           
-           //Delete the sword
-           
-           
+        if (swordApperance && facingLeft){
+            g.setColor(Color.YELLOW);
+            //Sword
+           g.fillRect(mainChar.x-50,mainChar.y+15, sword.width, sword.height);
+            sword.x = mainChar.x-50;
+            sword.y = mainChar.y+15;
+        }
         
-        
-        
+     
         g.setColor(Color.RED);
         g.fillRect(enemy.x, enemy.y, enemy.width, enemy.height);
+        g.fillRect(eliteEnemy.x, eliteEnemy.y, eliteEnemy.width, eliteEnemy.height);
         g.setFont(BiggerFont);
         g.drawString(""+health, 50, 50);
+        g.drawString("Points: "+score, 800, 50);
         if (flash){
             g.setColor(Color.RED);
             g.fillRect(0, 0, WIDTH, HEIGHT);
@@ -171,7 +176,7 @@ public class FinalProject extends JComponent implements ActionListener {
     public void gameLoop() {
         moveChar();
         enemy();
-        swordCollision();
+        sword();
         healthBar();
         jump();
         
@@ -208,22 +213,42 @@ public class FinalProject extends JComponent implements ActionListener {
         } else if (enemy.x == stopPosLeft) {
             movingRight = true;
         }
+        if (enemy.x > WIDTH) {
+            enemy.x = WIDTH - enemy.width;
+        } else if (enemy.x < 0) {
+            enemy.x = 0;
+        }
+        if (enemy.x <= 0){
+            movingRight = true;
+        }else if (enemy.x >= WIDTH){
+            movingRight = false;
+        }
+        if (score == 1000){
+            if (eliteEnemy.y < 350) {
+            eliteEnemy.y = eliteEnemy.y + mobFallSpeed;
+            }
+            
+        }
+        
 
     }
 
-    private void swordCollision() {
+    private void sword() {
         
         if (hitting){
-            swordApperance = true;
+            //When sword touches enemy, it "dies" and another spawns on top of screen.
             if (swordApperance){
+                if (sword.intersects(enemy)){
+                    enemy.x = (int)(Math.random() * 1000) + 0;
+                    enemy.y = 0;
+                    score = score + 100;
+                }
                 
             }
             
             
         
         }
-        
-        
         
     }
 
@@ -310,17 +335,21 @@ public class FinalProject extends JComponent implements ActionListener {
             } else if (keyCode == KeyEvent.VK_LEFT) {
                 charLeft = true;
                 facingLeft = true;
+                
             }
             if (keyCode == KeyEvent.VK_UP){
                 jumping = true;
-                swordApperance = true;
-               
+   
             }
+            if (keyCode ==KeyEvent.VK_SPACE){
+                hitting = true;
+                swordApperance = true;
             
             
             
             
-
+            
+            }
         }
 
         // if a key has been released
