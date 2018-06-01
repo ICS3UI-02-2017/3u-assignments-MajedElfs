@@ -44,7 +44,9 @@ public class FinalProject extends JComponent implements ActionListener {
     Rectangle eliteEnemy = new Rectangle(250, -100, 75, 75);
     Rectangle eliteEnemy2 = new Rectangle(50, -100, 75, 75);
     Rectangle eliteEnemy3 = new Rectangle(700, -100, 75, 75);
-    Rectangle boulder = new Rectangle(-100, 350, 40, 40);
+    //Boulder
+    Rectangle boulder = new Rectangle(-100, mainChar.y, 50, 50);
+    //Sword
     Rectangle sword = new Rectangle(mainChar.x + 50, mainChar.y + 15, 50, 10);
     //Control variables
     boolean charRight = false;
@@ -53,9 +55,8 @@ public class FinalProject extends JComponent implements ActionListener {
     int charSpeed = 5;
     //Monster's fall speed
     int mobFallSpeed = 4;
-    int originalPosX = 500;
-    int originalPosY = 350;
     boolean movingRight = true;
+    //Creating stop positions for all enemies
     int stopPosLeft = enemy.x - 100;
     int stopPosRight = enemy.x + 100;
     int stopPosLeft2 = enemy2.x - 100;
@@ -69,6 +70,7 @@ public class FinalProject extends JComponent implements ActionListener {
     //Score and Health
     int health = 3;
     int score = 0;
+    //Making a new font for end screen
     Font BiggerFont = new Font("arial", Font.BOLD, 36);
     //Getting hit (flashing)
     long flashUntil = System.currentTimeMillis();
@@ -77,6 +79,7 @@ public class FinalProject extends JComponent implements ActionListener {
     boolean facingLeft = false;
     //Temporary game over screen
     String gameOver = new String("Game Over");
+    String stringScore = new String("Your score:" + score);
     //Hitting
     boolean hitting = false;
     boolean swordApperance = false;
@@ -87,7 +90,9 @@ public class FinalProject extends JComponent implements ActionListener {
     //Adding gravity
     int gravity = 1;
     int velocity = 0;
+    //Boulder movement
     boolean boulderGoingRight = true;
+    int boulderSpeed = 5;
 
     // GAME VARIABLES END HERE    
     // Constructor to create the Frame and place the panel in
@@ -129,12 +134,13 @@ public class FinalProject extends JComponent implements ActionListener {
         g.clearRect(0, 0, WIDTH, HEIGHT);
 
         // GAME DRAWING GOES HERE
+        //Temporary background
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, WIDTH, HEIGHT);
         g.setColor(Color.GRAY);
         g.fillRect(0, 400, WIDTH, 650);
 
-
+        //Making character
         g.setColor(Color.WHITE);
         g.fillRect(mainChar.x, mainChar.y, mainChar.width, mainChar.height);
         //If hitting, make sword appear
@@ -161,24 +167,26 @@ public class FinalProject extends JComponent implements ActionListener {
         g.fillRect(eliteEnemy2.x, eliteEnemy2.y, eliteEnemy2.width, eliteEnemy2.height);
         g.fillRect(eliteEnemy3.x, eliteEnemy3.y, eliteEnemy3.width, eliteEnemy3.height);
         g.setColor(Color.GRAY);
+        //Drawing boulder
         g.fillRect(boulder.x, boulder.y, boulder.width, boulder.height);
+        //GUI
         g.setColor(Color.GREEN);
         g.setFont(BiggerFont);
+        //health and score display
         g.drawString("" + health, 50, 50);
-        g.drawString("Points: " + score, 800, 50);
+        g.drawString("Points: " + score, 700, 50);
+        //Flashing when hit
         if (flash) {
             g.setColor(Color.RED);
             g.fillRect(0, 0, WIDTH, HEIGHT);
         }
+        //Take to end screen when dead
         if (health <= 0) {
             g.clearRect(0, 0, WIDTH, HEIGHT);
             g.setFont(BiggerFont);
             g.drawString(gameOver, 400, 350);
+            g.drawString(stringScore, 400, 400);
         }
-
-
-
-
         // GAME DRAWING ENDS HERE
     }
 
@@ -198,16 +206,19 @@ public class FinalProject extends JComponent implements ActionListener {
         jump();
         boulder();
 
+
+
         collisionWithGround();
     }
 
     private void moveChar() {
+        //Movement for character
         if (charRight) {
             mainChar.x = mainChar.x + charSpeed;
         } else if (charLeft) {
             mainChar.x = mainChar.x - charSpeed;
         }
-
+        //creating so that character can't move off screen
         if (mainChar.x > WIDTH) {
             mainChar.x = WIDTH - mainChar.width;
         } else if (mainChar.x < 0) {
@@ -228,6 +239,7 @@ public class FinalProject extends JComponent implements ActionListener {
             enemy.x--;
 
         }
+        //Make enemy roam right and left
         if (enemy.x == stopPosRight) {
             movingRight = false;
         } else if (enemy.x == stopPosLeft) {
@@ -238,6 +250,7 @@ public class FinalProject extends JComponent implements ActionListener {
         } else if (enemy.x < 0) {
             enemy.x = 0;
         }
+        //Making it so that enemies can't roam off of the screen
         if (enemy.x <= 0) {
             movingRight = true;
         } else if (enemy.x >= WIDTH) {
@@ -270,6 +283,7 @@ public class FinalProject extends JComponent implements ActionListener {
             }
 
         }
+        //Second enemy movement
         if (movingRight) {
             enemy2.x++;
         } else {
@@ -369,6 +383,10 @@ public class FinalProject extends JComponent implements ActionListener {
         } else if (eliteEnemy3.x >= WIDTH) {
             movingRight = false;
         }
+        //When player reaches 8000 points, increase enemy fall speed
+        if (score >= 8000) {
+            mobFallSpeed = 6;
+        }
 
     }
 
@@ -382,19 +400,23 @@ public class FinalProject extends JComponent implements ActionListener {
                     enemy.y = 0;
                     score = score + 100;
                 }
+                //If sword touches the second enemy, player gains points and enemy respawns somewhere randomly
                 if (sword.intersects(enemy2)) {
                     enemy2.x = (int) (Math.random() * 1000) + 0;
                     enemy2.y = 0;
                     score = score + 100;
                 }
+                //If sword touches the elite enemy, player gains points and enemy respawns somewhere randomly
                 if (sword.intersects(eliteEnemy)) {
                     score = score + 250;
                     eliteEnemy.y = -100;
                 }
+                //If sword touches the second elite enemy, player gains points and enemy respawns somewhere randomly                
                 if (sword.intersects(eliteEnemy2)) {
                     score = score + 250;
                     eliteEnemy2.y = -100;
                 }
+                //If sword touches the third elite enemy, player gains points and enemy respawns somewhere randomly                
                 if (sword.intersects(eliteEnemy3)) {
                     score = score + 250;
                     eliteEnemy3.y = -100;
@@ -450,6 +472,17 @@ public class FinalProject extends JComponent implements ActionListener {
             flash = true;
             flashUntil = System.currentTimeMillis() + flashDelay;
         }
+        if (mainChar.intersects(boulder)) {
+            health--;
+            if (boulder.x > mainChar.x) {
+                mainChar.x = mainChar.x - 50;
+            }//If enemy is on the left of the main char and is touched, bounce back
+            else if (boulder.x < mainChar.x) {
+                mainChar.x = mainChar.x + 50;
+            }
+            flash = true;
+            flashUntil = System.currentTimeMillis() + flashDelay;
+        }
 
         if (System.currentTimeMillis() > flashUntil) {
             flash = false;
@@ -459,11 +492,14 @@ public class FinalProject extends JComponent implements ActionListener {
     }
 
     private void jump() {
+        //making it so the character can jump
         velocity = velocity + gravity;
+        //Is the character jumping and on ground? (so they can't double jump)
         if (jumping && onGround) {
             velocity = -15;
             onGround = false;
         }
+        //Gravity
         mainChar.y = mainChar.y + velocity;
         if (mainChar.y >= 350) {
             onGround = true;
@@ -479,6 +515,32 @@ public class FinalProject extends JComponent implements ActionListener {
     }
 
     private void boulder() {
+        //When player achieves 5000 points, a boulder spawns and will move right and left across the map until player dies
+        if (score >= 5000) {
+            if (boulder.x == 0) {
+                boulderGoingRight = true;
+            }
+            //Makes boulder go right
+            if (boulderGoingRight) {
+                boulder.x = boulder.x + boulderSpeed;
+                if (boulder.x >= WIDTH) {
+                    boulderGoingRight = false;
+
+                }
+            }
+            //Make boulder go left
+            if (!boulderGoingRight) {
+                boulder.x = boulder.x - boulderSpeed;
+            }
+
+
+
+        }
+        //If player achieves 9000 points, boulder becomes faster
+        if (score >= 9000) {
+            boulderSpeed = 8;
+        }
+
     }
 
     // Used to implement any of the Mouse Actions
