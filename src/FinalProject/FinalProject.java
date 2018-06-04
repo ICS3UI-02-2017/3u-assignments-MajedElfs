@@ -14,6 +14,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import javax.imageio.ImageIO;
 import javax.swing.Timer;
 
 /**
@@ -44,6 +47,9 @@ public class FinalProject extends JComponent implements ActionListener {
     Rectangle eliteEnemy = new Rectangle(250, -100, 75, 75);
     Rectangle eliteEnemy2 = new Rectangle(50, -100, 75, 75);
     Rectangle eliteEnemy3 = new Rectangle(700, -100, 75, 75);
+    int eliteHealth = 2;
+    int eliteHealth2 = 2;
+    int eliteHealth3 = 2;
     //Boulder
     Rectangle boulder = new Rectangle(-100, mainChar.y, 50, 50);
     //Sword
@@ -74,6 +80,8 @@ public class FinalProject extends JComponent implements ActionListener {
     Font BiggerFont = new Font("arial", Font.BOLD, 36);
     //Getting hit (flashing)
     long flashUntil = System.currentTimeMillis();
+    long scoreDelay = System.currentTimeMillis();
+    boolean showScore = false;
     int flashDelay = 50;
     boolean flash = false;
     boolean facingLeft = false;
@@ -93,6 +101,8 @@ public class FinalProject extends JComponent implements ActionListener {
     //Boulder movement
     boolean boulderGoingRight = true;
     int boulderSpeed = 5;
+    
+    BufferedImage background = loadImage("Background.png");
 
     // GAME VARIABLES END HERE    
     // Constructor to create the Frame and place the panel in
@@ -124,6 +134,18 @@ public class FinalProject extends JComponent implements ActionListener {
         gameTimer.setRepeats(true);
         gameTimer.start();
     }
+    
+    
+    BufferedImage loadImage(String name){
+        BufferedImage img = null;
+        try{
+            img = ImageIO.read(new File(name));
+        }catch(Exception e){
+            System.out.println("Error loading picture");
+            e.printStackTrace();
+        }
+        return img;
+    }
 
     // drawing of the game happens in here
     // we use the Graphics object, g, to perform the drawing
@@ -140,6 +162,8 @@ public class FinalProject extends JComponent implements ActionListener {
         g.setColor(Color.GRAY);
         g.fillRect(0, 400, WIDTH, 650);
 
+        g.drawImage(background, 0, 0, null);
+        
         //Making character
         g.setColor(Color.WHITE);
         g.fillRect(mainChar.x, mainChar.y, mainChar.width, mainChar.height);
@@ -150,6 +174,7 @@ public class FinalProject extends JComponent implements ActionListener {
             g.fillRect(mainChar.x + 50, mainChar.y + 15, sword.width, sword.height);
             sword.x = mainChar.x + 50;
             sword.y = mainChar.y + 15;
+
         }
         if (swordApperance && facingLeft) {
             g.setColor(Color.YELLOW);
@@ -157,6 +182,7 @@ public class FinalProject extends JComponent implements ActionListener {
             g.fillRect(mainChar.x - 50, mainChar.y + 15, sword.width, sword.height);
             sword.x = mainChar.x - 50;
             sword.y = mainChar.y + 15;
+
         }
 
         //Drawing enemies
@@ -185,8 +211,18 @@ public class FinalProject extends JComponent implements ActionListener {
             g.clearRect(0, 0, WIDTH, HEIGHT);
             g.setFont(BiggerFont);
             g.drawString(gameOver, 400, 350);
-            g.drawString(stringScore, 400, 400);
+            g.drawString("Your Score: " + score, 400, 400);
         }
+        
+        // Score when killing an enemy
+//        g.setColor(Color.YELLOW);
+//        if (sword.intersects(enemy)){
+//            if (showScore){
+//                
+//            }
+//            g.drawString(""+ +100, enemy.x, enemy.y);
+            
+        //}
         // GAME DRAWING ENDS HERE
     }
 
@@ -406,33 +442,75 @@ public class FinalProject extends JComponent implements ActionListener {
                     enemy2.y = 0;
                     score = score + 100;
                 }
-                //If sword touches the elite enemy, player gains points and enemy respawns somewhere randomly
+                //If sword touches the third elite enemy, enemy loses one health and bounces back 
                 if (sword.intersects(eliteEnemy)) {
-                    score = score + 250;
-                    eliteEnemy.y = -100;
+
+                    eliteHealth--;
+                    //If enemy is on the right of the main char and is touched, bounce back
+                    if (mainChar.x > eliteEnemy.x) {
+                        eliteEnemy.x = eliteEnemy.x - 50;
+                    }//If enemy is on the left of the main char and is touched, bounce back
+                    else if (mainChar.x < eliteEnemy.x) {
+                        eliteEnemy.x = eliteEnemy.x + 50;
+
+                    }
+                    if (eliteHealth == 0) {
+                        eliteEnemy.x = (int) (Math.random() * 1000) + 0;
+                        eliteEnemy.y = -50;
+                        score = score + 250;
+                        eliteHealth = 2;
+                    }
                 }
-                //If sword touches the second elite enemy, player gains points and enemy respawns somewhere randomly                
+                //If sword touches the third elite enemy, enemy loses one health and bounces back                
                 if (sword.intersects(eliteEnemy2)) {
-                    score = score + 250;
-                    eliteEnemy2.y = -100;
+                    eliteHealth2--;
+                    //If enemy is on the right of the main char and is touched, bounce back
+                    if (mainChar.x > eliteEnemy2.x) {
+                        eliteEnemy2.x = eliteEnemy2.x - 50;
+                    }//If enemy is on the left of the main char and is touched, bounce back
+                    else if (mainChar.x < eliteEnemy2.x) {
+                        eliteEnemy2.x = eliteEnemy2.x + 50;
+
+                    }
+                    if (eliteHealth2 == 0) {
+                        eliteEnemy2.x = (int) (Math.random() * 1000) + 0;
+                        eliteEnemy2.y = -50;
+                        score = score + 250;
+                        eliteHealth2 = 2;
+                    }
                 }
-                //If sword touches the third elite enemy, player gains points and enemy respawns somewhere randomly                
+                //If sword touches the third elite enemy, enemy loses one health and bounces back               
                 if (sword.intersects(eliteEnemy3)) {
-                    score = score + 250;
-                    eliteEnemy3.y = -100;
+                    eliteHealth3--;
+                    //If enemy is on the right of the main char and is touched, bounce back
+                    if (mainChar.x > eliteEnemy3.x) {
+                        eliteEnemy3.x = eliteEnemy3.x - 50;
+                    }//If enemy is on the left of the main char and is touched, bounce back
+                    else if (mainChar.x < eliteEnemy3.x) {
+                        eliteEnemy3.x = eliteEnemy3.x + 50;
+
+                    }
+                    if (eliteHealth3 == 0) {
+                        eliteEnemy3.x = (int) (Math.random() * 1000) + 0;
+                        eliteEnemy3.y = -50;
+                        score = score + 250;
+                        eliteHealth3 = 2;
+                    }
                 }
+
+
+
+
 
 
 
             }
 
-
-
         }
-
     }
 
     private void healthBar() {
+
         //If character is touching enemy, lose one health
         if (mainChar.intersects(enemy)) {
             health--;
@@ -517,7 +595,7 @@ public class FinalProject extends JComponent implements ActionListener {
     private void boulder() {
         //When player achieves 5000 points, a boulder spawns and will move right and left across the map until player dies
         if (score >= 5000) {
-            if (boulder.x == 0) {
+            if (boulder.x <= 0) {
                 boulderGoingRight = true;
             }
             //Makes boulder go right
@@ -610,7 +688,7 @@ public class FinalProject extends JComponent implements ActionListener {
             }
 
             if (keyCode == KeyEvent.VK_SPACE) {
-                hitting = true;
+                hitting = false;
                 swordApperance = false;
             }
             if (keyCode == KeyEvent.VK_UP) {
