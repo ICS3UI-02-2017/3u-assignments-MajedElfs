@@ -41,7 +41,7 @@ public class FinalProject extends JComponent implements ActionListener {
     // YOUR GAME VARIABLES WOULD GO HERE
     Color grass = new Color(23, 183, 31);
     //Making Character and enemies
-    Rectangle mainChar = new Rectangle(400, 350, 50, 50);
+    Rectangle mainChar = new Rectangle(400, 350, 30, 50);
     Rectangle enemy = new Rectangle(500, 10, 50, 50);
     Rectangle enemy2 = new Rectangle(680, -50, 50, 50);
     Rectangle eliteEnemy = new Rectangle(250, -100, 75, 75);
@@ -57,6 +57,8 @@ public class FinalProject extends JComponent implements ActionListener {
     //Control variables
     boolean charRight = false;
     boolean charLeft = false;
+    boolean facingLeft = false;
+    boolean facingRight = true;
     //Speed of Character
     int charSpeed = 5;
     //Monster's fall speed
@@ -84,7 +86,7 @@ public class FinalProject extends JComponent implements ActionListener {
     boolean showScore = false;
     int flashDelay = 50;
     boolean flash = false;
-    boolean facingLeft = false;
+    
     //Temporary game over screen
     String gameOver = new String("Game Over");
     String stringScore = new String("Your score:" + score);
@@ -103,6 +105,11 @@ public class FinalProject extends JComponent implements ActionListener {
     int boulderSpeed = 5;
     
     BufferedImage background = loadImage("Background.png");
+    BufferedImage boulderPic = loadImage ("Boulder.png");
+    BufferedImage characterLeft = loadImage ("mainChar.png");
+    BufferedImage characterRight = loadImage ("mainCharRight.png");
+    BufferedImage swordRight = loadImage ("SwordRight.png");
+    BufferedImage swordLeft = loadImage ("SwordLeft.png");
 
     // GAME VARIABLES END HERE    
     // Constructor to create the Frame and place the panel in
@@ -164,14 +171,22 @@ public class FinalProject extends JComponent implements ActionListener {
 
         g.drawImage(background, 0, 0, null);
         
+        
         //Making character
         g.setColor(Color.WHITE);
-        g.fillRect(mainChar.x, mainChar.y, mainChar.width, mainChar.height);
+        
+      
+        if (!facingLeft){
+            g.drawImage(characterRight, mainChar.x, mainChar.y, null);
+        }else if (facingLeft){
+            g.drawImage(characterLeft, mainChar.x, mainChar.y, null);
+        }
         //If hitting, make sword appear
         if (swordApperance && !facingLeft) {
             g.setColor(Color.YELLOW);
             //Sword
-            g.fillRect(mainChar.x + 50, mainChar.y + 15, sword.width, sword.height);
+            
+            g.drawImage(swordRight, mainChar.x+35, mainChar.y+15, null);
             sword.x = mainChar.x + 50;
             sword.y = mainChar.y + 15;
 
@@ -179,7 +194,8 @@ public class FinalProject extends JComponent implements ActionListener {
         if (swordApperance && facingLeft) {
             g.setColor(Color.YELLOW);
             //Sword
-            g.fillRect(mainChar.x - 50, mainChar.y + 15, sword.width, sword.height);
+            
+            g.drawImage(swordLeft, mainChar.x-50, mainChar.y +15, null);
             sword.x = mainChar.x - 50;
             sword.y = mainChar.y + 15;
 
@@ -194,7 +210,8 @@ public class FinalProject extends JComponent implements ActionListener {
         g.fillRect(eliteEnemy3.x, eliteEnemy3.y, eliteEnemy3.width, eliteEnemy3.height);
         g.setColor(Color.GRAY);
         //Drawing boulder
-        g.fillRect(boulder.x, boulder.y, boulder.width, boulder.height);
+        
+        g.drawImage(boulderPic, boulder.x, boulder.y, this);
         //GUI
         g.setColor(Color.GREEN);
         g.setFont(BiggerFont);
@@ -208,6 +225,7 @@ public class FinalProject extends JComponent implements ActionListener {
         }
         //Take to end screen when dead
         if (health <= 0) {
+            g.setColor(Color.RED);
             g.clearRect(0, 0, WIDTH, HEIGHT);
             g.setFont(BiggerFont);
             g.drawString(gameOver, 400, 350);
