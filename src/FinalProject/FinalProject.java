@@ -86,7 +86,6 @@ public class FinalProject extends JComponent implements ActionListener {
     boolean showScore = false;
     int flashDelay = 50;
     boolean flash = false;
-    
     //Temporary game over screen
     String gameOver = new String("Game Over");
     String stringScore = new String("Your score:" + score);
@@ -103,13 +102,26 @@ public class FinalProject extends JComponent implements ActionListener {
     //Boulder movement
     boolean boulderGoingRight = true;
     int boulderSpeed = 5;
-    
+    int leafY = 100;
+    int leafYStart = 100;
+    int leafX = 100;
+    int angle = 0;
+    int amplitude = 100;
+    int eyeX = 435;
+    int anotherEyeX = 60;
     BufferedImage background = loadImage("Background.png");
-    BufferedImage boulderPic = loadImage ("Boulder.png");
-    BufferedImage characterLeft = loadImage ("mainChar.png");
-    BufferedImage characterRight = loadImage ("mainCharRight.png");
-    BufferedImage swordRight = loadImage ("SwordRight.png");
-    BufferedImage swordLeft = loadImage ("SwordLeft.png");
+    BufferedImage boulderPic = loadImage("Boulder.png");
+    BufferedImage characterLeft = loadImage("mainChar.png");
+    BufferedImage characterRight = loadImage("mainCharRight.png");
+    BufferedImage swordRight = loadImage("SwordRight.png");
+    BufferedImage swordLeft = loadImage("SwordLeft.png");
+    BufferedImage enemyLeft = loadImage("enemyLeft.png");
+    BufferedImage enemyRight = loadImage("enemyRight.png");
+    BufferedImage enemy2Left = loadImage("enemy2Left.png");
+    BufferedImage enemy2Right = loadImage("enemy2Right.png");
+    BufferedImage eliteEnemyLeft = loadImage("eliteEnemyLeft.png");
+    BufferedImage eliteEnemyRight = loadImage("eliteEnemyRight.png");
+    BufferedImage leaf = loadImage("leaf.png");
 
     // GAME VARIABLES END HERE    
     // Constructor to create the Frame and place the panel in
@@ -141,13 +153,12 @@ public class FinalProject extends JComponent implements ActionListener {
         gameTimer.setRepeats(true);
         gameTimer.start();
     }
-    
-    
-    BufferedImage loadImage(String name){
+
+    BufferedImage loadImage(String name) {
         BufferedImage img = null;
-        try{
+        try {
             img = ImageIO.read(new File(name));
-        }catch(Exception e){
+        } catch (Exception e) {
             System.out.println("Error loading picture");
             e.printStackTrace();
         }
@@ -170,23 +181,23 @@ public class FinalProject extends JComponent implements ActionListener {
         g.fillRect(0, 400, WIDTH, 650);
 
         g.drawImage(background, 0, 0, null);
-        
-        
+
+
         //Making character
         g.setColor(Color.WHITE);
-        
-      
-        if (!facingLeft){
+
+
+        if (!facingLeft) {
             g.drawImage(characterRight, mainChar.x, mainChar.y, null);
-        }else if (facingLeft){
+        } else if (facingLeft) {
             g.drawImage(characterLeft, mainChar.x, mainChar.y, null);
         }
         //If hitting, make sword appear
         if (swordApperance && !facingLeft) {
             g.setColor(Color.YELLOW);
             //Sword
-            
-            g.drawImage(swordRight, mainChar.x+35, mainChar.y+15, null);
+
+            g.drawImage(swordRight, mainChar.x + 35, mainChar.y + 15, null);
             sword.x = mainChar.x + 50;
             sword.y = mainChar.y + 15;
 
@@ -194,8 +205,8 @@ public class FinalProject extends JComponent implements ActionListener {
         if (swordApperance && facingLeft) {
             g.setColor(Color.YELLOW);
             //Sword
-            
-            g.drawImage(swordLeft, mainChar.x-50, mainChar.y +15, null);
+
+            g.drawImage(swordLeft, mainChar.x - 50, mainChar.y + 15, null);
             sword.x = mainChar.x - 50;
             sword.y = mainChar.y + 15;
 
@@ -203,14 +214,35 @@ public class FinalProject extends JComponent implements ActionListener {
 
         //Drawing enemies
         g.setColor(Color.RED);
-        g.fillRect(enemy.x, enemy.y, enemy.width, enemy.height);
-        g.fillRect(eliteEnemy.x, eliteEnemy.y, eliteEnemy.width, eliteEnemy.height);
-        g.fillRect(enemy2.x, enemy2.y, enemy2.width, enemy2.height);
-        g.fillRect(eliteEnemy2.x, eliteEnemy2.y, eliteEnemy2.width, eliteEnemy2.height);
-        g.fillRect(eliteEnemy3.x, eliteEnemy3.y, eliteEnemy3.width, eliteEnemy3.height);
+        if (!movingRight) {
+            g.drawImage(enemyLeft, enemy.x, enemy.y, null);
+        } else if (movingRight) {
+            g.drawImage(enemyRight, enemy.x, enemy.y, null);
+        }
+        if (!movingRight) {
+            g.drawImage(enemy2Left, enemy2.x, enemy2.y, null);
+        } else if (movingRight) {
+            g.drawImage(enemy2Right, enemy2.x, enemy2.y, null);
+        }
+        if (!movingRight) {
+            g.drawImage(eliteEnemyLeft, eliteEnemy.x, eliteEnemy.y, null);
+        } else if (movingRight) {
+            g.drawImage(eliteEnemyRight, eliteEnemy.x, eliteEnemy.y, null);
+        }
+
+        if (!movingRight) {
+            g.drawImage(eliteEnemyLeft, eliteEnemy2.x, eliteEnemy2.y, null);
+        } else if (movingRight) {
+            g.drawImage(eliteEnemyRight, eliteEnemy2.x, eliteEnemy2.y, null);
+        }
+        if (!movingRight) {
+            g.drawImage(eliteEnemyLeft, eliteEnemy3.x, eliteEnemy3.y, null);
+        } else if (movingRight) {
+            g.drawImage(eliteEnemyRight, eliteEnemy3.x, eliteEnemy3.y, null);
+        }
         g.setColor(Color.GRAY);
         //Drawing boulder
-        
+
         g.drawImage(boulderPic, boulder.x, boulder.y, this);
         //GUI
         g.setColor(Color.GREEN);
@@ -223,6 +255,12 @@ public class FinalProject extends JComponent implements ActionListener {
             g.setColor(Color.RED);
             g.fillRect(0, 0, WIDTH, HEIGHT);
         }
+
+        //Making Leaves
+        g.setColor(Color.GREEN);
+        for (int i = 0; i < 2; i++) {
+            g.drawImage(leaf, leafX, leafY, null);
+        }
         //Take to end screen when dead
         if (health <= 0) {
             g.setColor(Color.RED);
@@ -230,16 +268,10 @@ public class FinalProject extends JComponent implements ActionListener {
             g.setFont(BiggerFont);
             g.drawString(gameOver, 400, 350);
             g.drawString("Your Score: " + score, 400, 400);
+
         }
-        
-        // Score when killing an enemy
-//        g.setColor(Color.YELLOW);
-//        if (sword.intersects(enemy)){
-//            if (showScore){
-//                
-//            }
-//            g.drawString(""+ +100, enemy.x, enemy.y);
-            
+
+
         //}
         // GAME DRAWING ENDS HERE
     }
@@ -259,6 +291,7 @@ public class FinalProject extends JComponent implements ActionListener {
         healthBar();
         jump();
         boulder();
+        leaf();
 
 
 
@@ -636,6 +669,24 @@ public class FinalProject extends JComponent implements ActionListener {
         if (score >= 9000) {
             boulderSpeed = 8;
         }
+
+    }
+
+    private void leaf() {
+
+        leafX = leafX + 5;
+
+        if (leafX > WIDTH) {
+            leafX = 0;
+        }
+        int amount = (int) (amplitude * Math.sin(Math.toRadians(angle)));
+        leafY = leafYStart + amount;
+
+        angle = angle + 2;
+        if (angle == 360) {
+            angle = 0;
+        }
+
 
     }
 
