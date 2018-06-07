@@ -82,7 +82,7 @@ public class FinalProject extends JComponent implements ActionListener {
     Font BiggerFont = new Font("arial", Font.BOLD, 36);
     //Getting hit (flashing)
     long flashUntil = System.currentTimeMillis();
-    long scoreDelay = System.currentTimeMillis();
+    long swordDelay = 200;
     boolean showScore = false;
     int flashDelay = 50;
     boolean flash = false;
@@ -102,6 +102,7 @@ public class FinalProject extends JComponent implements ActionListener {
     //Boulder movement
     boolean boulderGoingRight = true;
     int boulderSpeed = 5;
+    //Leaf movement
     int leafY = 100;
     int leafYStart = 100;
     int leafX = 100;
@@ -122,6 +123,7 @@ public class FinalProject extends JComponent implements ActionListener {
     BufferedImage eliteEnemyLeft = loadImage("eliteEnemyLeft.png");
     BufferedImage eliteEnemyRight = loadImage("eliteEnemyRight.png");
     BufferedImage leaf = loadImage("leaf.png");
+    BufferedImage endScreen = loadImage("endScreen.png");
 
     // GAME VARIABLES END HERE    
     // Constructor to create the Frame and place the panel in
@@ -265,9 +267,11 @@ public class FinalProject extends JComponent implements ActionListener {
         if (health <= 0) {
             g.setColor(Color.RED);
             g.clearRect(0, 0, WIDTH, HEIGHT);
+            g.drawImage(endScreen, 0, 0, null);
             g.setFont(BiggerFont);
-            g.drawString(gameOver, 400, 350);
-            g.drawString("Your Score: " + score, 400, 400);
+            g.drawString(gameOver, 400, 300);
+            g.drawString("Your Score: " + score, 400, 350);
+            g.drawString("Press X to exit game"  , 350, 450);
 
         }
 
@@ -370,6 +374,7 @@ public class FinalProject extends JComponent implements ActionListener {
             }
 
         }
+        
         //Second enemy movement
         if (movingRight) {
             enemy2.x++;
@@ -549,13 +554,17 @@ public class FinalProject extends JComponent implements ActionListener {
                     }
                 }
 
+            
+            
+        }
+
+        
 
 
 
 
 
-
-            }
+            
 
         }
     }
@@ -616,7 +625,6 @@ public class FinalProject extends JComponent implements ActionListener {
         if (System.currentTimeMillis() > flashUntil) {
             flash = false;
         }
-
 
     }
 
@@ -742,6 +750,11 @@ public class FinalProject extends JComponent implements ActionListener {
 
 
             }
+            if (health <= 0){
+                if (keyCode == KeyEvent.VK_X) {
+                System.exit(0);
+            }
+        }
         }
 
         // if a key has been released
