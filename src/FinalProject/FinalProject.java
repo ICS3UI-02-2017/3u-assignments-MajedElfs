@@ -110,10 +110,13 @@ public class FinalProject extends JComponent implements ActionListener {
     int amplitude = 100;
     int eyeX = 435;
     int anotherEyeX = 60;
+    boolean restart = false;
     BufferedImage background = loadImage("Background.png");
     BufferedImage boulderPic = loadImage("Boulder.png");
     BufferedImage characterLeft = loadImage("mainChar.png");
     BufferedImage characterRight = loadImage("mainCharRight.png");
+    BufferedImage hittingLeft = loadImage("hittingLeft.png");
+    BufferedImage hittingRight = loadImage("hittingRight.png");
     BufferedImage swordRight = loadImage("SwordRight.png");
     BufferedImage swordLeft = loadImage("SwordLeft.png");
     BufferedImage enemyLeft = loadImage("enemyLeft.png");
@@ -124,13 +127,20 @@ public class FinalProject extends JComponent implements ActionListener {
     BufferedImage eliteEnemyRight = loadImage("eliteEnemyRight.png");
     BufferedImage leaf = loadImage("leaf.png");
     BufferedImage endScreen = loadImage("endScreen.png");
-
+    BufferedImage heart1 = loadImage("heart.png");
+    BufferedImage heart2 = loadImage("heart2.png");
+    BufferedImage heart3 = loadImage("heart3.png");
+    BufferedImage walkingSheet = loadImage("walking.png");
+    BufferedImage[] walkingAnimation = new BufferedImage[8];
+    
     // GAME VARIABLES END HERE    
     // Constructor to create the Frame and place the panel in
     // You will learn more about this in Grade 12 :)
+
     public FinalProject() {
         // creates a windows to show my game
         JFrame frame = new JFrame(title);
+        preSetup();
 
         // sets the size of my game
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
@@ -250,7 +260,7 @@ public class FinalProject extends JComponent implements ActionListener {
         g.setColor(Color.GREEN);
         g.setFont(BiggerFont);
         //health and score display
-        g.drawString("" + health, 50, 50);
+
         g.drawString("Points: " + score, 700, 50);
         //Flashing when hit
         if (flash) {
@@ -271,8 +281,27 @@ public class FinalProject extends JComponent implements ActionListener {
             g.setFont(BiggerFont);
             g.drawString(gameOver, 400, 300);
             g.drawString("Your Score: " + score, 400, 350);
-            g.drawString("Press X to exit game"  , 350, 450);
+            g.drawString("Press X to exit game", 350, 450);
+            g.drawString("Press R to restart game", 350, 550);
 
+        }
+
+        //Heart display depending on current health
+        if (health == 1) {
+            g.drawImage(heart1, 50, 50, 40, 40, null);
+        }
+        if (health == 2) {
+            g.drawImage(heart2, 50, 50, 82, 40, null);
+        }
+        if (health == 3) {
+            g.drawImage(heart3, 50, 50, 124, 40, null);
+        }
+
+        if (hitting && facingRight) {
+            g.drawImage(hittingRight, mainChar.x, mainChar.y, null);
+        }
+        if (hitting && facingLeft) {
+            g.drawImage(hittingLeft, mainChar.x, mainChar.y, null);
         }
 
 
@@ -284,6 +313,9 @@ public class FinalProject extends JComponent implements ActionListener {
     // This is run before the game loop begins!
     public void preSetup() {
         // Any of your pre setup before the loop starts should go here
+        for(int i = 0; i < walkingAnimation.length;i++){
+            walkingAnimation[i] = walkingSheet.getSubimage((i%4)*30, (i/4)*50, 30, 50);
+        }
     }
 
     // The main game loop
@@ -296,6 +328,8 @@ public class FinalProject extends JComponent implements ActionListener {
         jump();
         boulder();
         leaf();
+        restart();
+
 
 
 
@@ -374,7 +408,7 @@ public class FinalProject extends JComponent implements ActionListener {
             }
 
         }
-        
+
         //Second enemy movement
         if (movingRight) {
             enemy2.x++;
@@ -439,16 +473,8 @@ public class FinalProject extends JComponent implements ActionListener {
         } else if (eliteEnemy2.x == stopPosLeft) {
             movingRight = true;
         }
-        if (eliteEnemy2.x > WIDTH) {
-            eliteEnemy2.x = WIDTH - eliteEnemy2.width;
-        } else if (eliteEnemy2.x < 0) {
-            eliteEnemy2.x = 0;
-        }
-        if (eliteEnemy2.x <= 0) {
-            movingRight = true;
-        } else if (eliteEnemy2.x >= WIDTH) {
-            movingRight = false;
-        }
+
+
 
         if (eliteEnemy3.x > WIDTH) {
             eliteEnemy3.x = WIDTH - eliteEnemy3.width;
@@ -465,16 +491,8 @@ public class FinalProject extends JComponent implements ActionListener {
         } else if (eliteEnemy3.x == stopPosLeft) {
             movingRight = true;
         }
-        if (eliteEnemy3.x > WIDTH) {
-            eliteEnemy3.x = WIDTH - eliteEnemy3.width;
-        } else if (eliteEnemy3.x < 0) {
-            eliteEnemy3.x = 0;
-        }
-        if (eliteEnemy3.x <= 0) {
-            movingRight = true;
-        } else if (eliteEnemy3.x >= WIDTH) {
-            movingRight = false;
-        }
+
+
         //When player reaches 8000 points, increase enemy fall speed
         if (score >= 8000) {
             mobFallSpeed = 6;
@@ -554,17 +572,17 @@ public class FinalProject extends JComponent implements ActionListener {
                     }
                 }
 
-            
-            
-        }
 
-        
+
+            }
 
 
 
 
 
-            
+
+
+
 
         }
     }
@@ -625,6 +643,7 @@ public class FinalProject extends JComponent implements ActionListener {
         if (System.currentTimeMillis() > flashUntil) {
             flash = false;
         }
+
 
     }
 
@@ -698,6 +717,22 @@ public class FinalProject extends JComponent implements ActionListener {
 
     }
 
+    private void restart() {
+        //Restarts the game
+        if (health <= 0) {
+            if (restart) {
+                score = 0;
+                health = 3;
+                enemy.y = -100;
+                enemy2.y = -100;
+                eliteEnemy.y = -100;
+                eliteEnemy2.y = -100;
+                eliteEnemy3.y = -100;
+                boulder.x = -50;
+            }
+        }
+    }
+
     // Used to implement any of the Mouse Actions
     private class Mouse extends MouseAdapter {
 
@@ -732,6 +767,7 @@ public class FinalProject extends JComponent implements ActionListener {
             if (keyCode == KeyEvent.VK_RIGHT) {
                 charRight = true;
                 facingLeft = false;
+                facingRight = true;
             } else if (keyCode == KeyEvent.VK_LEFT) {
                 charLeft = true;
                 facingLeft = true;
@@ -750,11 +786,14 @@ public class FinalProject extends JComponent implements ActionListener {
 
 
             }
-            if (health <= 0){
+            if (health <= 0) {
                 if (keyCode == KeyEvent.VK_X) {
-                System.exit(0);
+                    System.exit(0);
+                }
+                if (keyCode == KeyEvent.VK_R) {
+                    restart = true;
+                }
             }
-        }
         }
 
         // if a key has been released
@@ -764,9 +803,11 @@ public class FinalProject extends JComponent implements ActionListener {
             if (keyCode == KeyEvent.VK_RIGHT) {
                 charRight = false;
                 facingLeft = false;
+                facingRight = true;
             } else if (keyCode == KeyEvent.VK_LEFT) {
                 charLeft = false;
                 facingLeft = true;
+                facingRight = false;
             }
 
             if (keyCode == KeyEvent.VK_SPACE) {
@@ -777,6 +818,9 @@ public class FinalProject extends JComponent implements ActionListener {
                 jumping = false;
 
             }
+            if (keyCode == KeyEvent.VK_R) {
+                restart = false;
+            }
 
 
         }
@@ -784,7 +828,7 @@ public class FinalProject extends JComponent implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent ae) {
-        preSetup();
+        
         gameLoop();
         repaint();
     }
