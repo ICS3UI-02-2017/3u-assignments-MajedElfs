@@ -111,6 +111,8 @@ public class FinalProject extends JComponent implements ActionListener {
     int eyeX = 435;
     int anotherEyeX = 60;
     boolean restart = false;
+    int frame = 0;
+    boolean walking = false;
     BufferedImage background = loadImage("Background.png");
     BufferedImage boulderPic = loadImage("Boulder.png");
     BufferedImage characterLeft = loadImage("mainChar.png");
@@ -130,9 +132,14 @@ public class FinalProject extends JComponent implements ActionListener {
     BufferedImage heart1 = loadImage("heart.png");
     BufferedImage heart2 = loadImage("heart2.png");
     BufferedImage heart3 = loadImage("heart3.png");
-    BufferedImage walkingSheet = loadImage("walking.png");
-    BufferedImage[] walkingAnimation = new BufferedImage[8];
-    
+    BufferedImage walkingSheetLeft = loadImage("walkingLeft.png");
+    BufferedImage walkingSheetRight = loadImage("walkingRight.png");
+    BufferedImage enemyWalkingSheetLeft = loadImage("slimeWalkingLeft.png");
+    BufferedImage enemyWalkingSheetRight = loadImage("slimeWalkingRight.png");
+    BufferedImage[] walkingAnimationLeft = new BufferedImage[8];
+    BufferedImage[] walkingAnimationRight = new BufferedImage[8];
+    BufferedImage[] enemyWalkingAnimationLeft = new BufferedImage[8];
+    BufferedImage[] enemyWalkingAnimationRight = new BufferedImage[8];
     // GAME VARIABLES END HERE    
     // Constructor to create the Frame and place the panel in
     // You will learn more about this in Grade 12 :)
@@ -201,8 +208,14 @@ public class FinalProject extends JComponent implements ActionListener {
 
         if (!facingLeft) {
             g.drawImage(characterRight, mainChar.x, mainChar.y, null);
+            if (walking){
+                g.drawImage(walkingAnimationRight[frame], mainChar.x, mainChar.y, null);
+            }
         } else if (facingLeft) {
             g.drawImage(characterLeft, mainChar.x, mainChar.y, null);
+            if (walking){
+                g.drawImage(walkingAnimationLeft[frame], mainChar.x, mainChar.y, null);
+            }
         }
         //If hitting, make sword appear
         if (swordApperance && !facingLeft) {
@@ -260,7 +273,7 @@ public class FinalProject extends JComponent implements ActionListener {
         g.setColor(Color.GREEN);
         g.setFont(BiggerFont);
         //health and score display
-
+        g.drawString("Health:", 55, 45);
         g.drawString("Points: " + score, 700, 50);
         //Flashing when hit
         if (flash) {
@@ -313,8 +326,11 @@ public class FinalProject extends JComponent implements ActionListener {
     // This is run before the game loop begins!
     public void preSetup() {
         // Any of your pre setup before the loop starts should go here
-        for(int i = 0; i < walkingAnimation.length;i++){
-            walkingAnimation[i] = walkingSheet.getSubimage((i%4)*30, (i/4)*50, 30, 50);
+        for(int i = 0; i < walkingAnimationLeft.length;i++){
+            walkingAnimationLeft[i] = walkingSheetLeft.getSubimage((i%4)*30, (i/4)*50, 30, 50);
+        }
+        for(int i = 0; i < walkingAnimationRight.length;i++){
+            walkingAnimationRight[i] = walkingSheetRight.getSubimage((i%4)*30, (i/4)*50, 30, 50);
         }
     }
 
@@ -329,6 +345,7 @@ public class FinalProject extends JComponent implements ActionListener {
         boulder();
         leaf();
         restart();
+        walkingAnimation();
 
 
 
@@ -733,6 +750,15 @@ public class FinalProject extends JComponent implements ActionListener {
         }
     }
 
+    private void walkingAnimation() {
+        if (walking){
+            frame++;
+            if (frame == 8){
+                frame = 0;
+            }
+        }
+    }
+
     // Used to implement any of the Mouse Actions
     private class Mouse extends MouseAdapter {
 
@@ -768,9 +794,11 @@ public class FinalProject extends JComponent implements ActionListener {
                 charRight = true;
                 facingLeft = false;
                 facingRight = true;
+                walking = true;
             } else if (keyCode == KeyEvent.VK_LEFT) {
                 charLeft = true;
                 facingLeft = true;
+                walking = true;
 
             }
             if (keyCode == KeyEvent.VK_UP) {
@@ -804,10 +832,12 @@ public class FinalProject extends JComponent implements ActionListener {
                 charRight = false;
                 facingLeft = false;
                 facingRight = true;
+                walking = false;
             } else if (keyCode == KeyEvent.VK_LEFT) {
                 charLeft = false;
                 facingLeft = true;
                 facingRight = false;
+                walking = false;
             }
 
             if (keyCode == KeyEvent.VK_SPACE) {
