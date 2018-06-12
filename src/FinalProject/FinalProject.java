@@ -113,6 +113,7 @@ public class FinalProject extends JComponent implements ActionListener {
     boolean restart = false;
     int frame = 0;
     boolean walking = false;
+    boolean gameStart = false;
     BufferedImage background = loadImage("Background.png");
     BufferedImage boulderPic = loadImage("Boulder.png");
     BufferedImage characterLeft = loadImage("mainChar.png");
@@ -140,6 +141,7 @@ public class FinalProject extends JComponent implements ActionListener {
     BufferedImage[] walkingAnimationRight = new BufferedImage[8];
     BufferedImage[] enemyWalkingAnimationLeft = new BufferedImage[8];
     BufferedImage[] enemyWalkingAnimationRight = new BufferedImage[8];
+    BufferedImage startMenu = loadImage("start.png");
     // GAME VARIABLES END HERE    
     // Constructor to create the Frame and place the panel in
     // You will learn more about this in Grade 12 :)
@@ -203,9 +205,11 @@ public class FinalProject extends JComponent implements ActionListener {
 
 
         //Making character
-        g.setColor(Color.WHITE);
+       
+if (gameStart){
+    
 
-
+        
         if (!facingLeft) {
             g.drawImage(characterRight, mainChar.x, mainChar.y, null);
             if (walking){
@@ -316,6 +320,11 @@ public class FinalProject extends JComponent implements ActionListener {
         if (hitting && facingLeft) {
             g.drawImage(hittingLeft, mainChar.x, mainChar.y, null);
         }
+}
+if (!gameStart){
+    g.drawImage(startMenu, 0, 0, null);
+    g.drawString("Start Game", 80, 570);
+}
 
 
         //}
@@ -346,6 +355,7 @@ public class FinalProject extends JComponent implements ActionListener {
         leaf();
         restart();
         walkingAnimation();
+        gameStart();
 
 
 
@@ -759,6 +769,12 @@ public class FinalProject extends JComponent implements ActionListener {
         }
     }
 
+    private void gameStart() {
+        if (health >=0){
+            gameStart = false;
+        }
+    }
+
     // Used to implement any of the Mouse Actions
     private class Mouse extends MouseAdapter {
 
@@ -808,18 +824,25 @@ public class FinalProject extends JComponent implements ActionListener {
             if (keyCode == KeyEvent.VK_SPACE) {
                 hitting = true;
                 swordApperance = true;
+                if (health <= 0){
+                    hitting = false;
+                }
 
-
+                
 
 
 
             }
+            if (keyCode == KeyEvent.VK_S){
+                    gameStart = true;
+                }
             if (health <= 0) {
                 if (keyCode == KeyEvent.VK_X) {
                     System.exit(0);
                 }
                 if (keyCode == KeyEvent.VK_R) {
                     restart = true;
+                    gameStart = true;
                 }
             }
         }
@@ -851,6 +874,9 @@ public class FinalProject extends JComponent implements ActionListener {
             if (keyCode == KeyEvent.VK_R) {
                 restart = false;
             }
+            if (keyCode == KeyEvent.VK_S){
+                    gameStart = true;
+                }
 
 
         }
