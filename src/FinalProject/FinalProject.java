@@ -291,7 +291,7 @@ if (gameStart){
             g.drawImage(leaf, leafX, leafY, null);
         }
         //Take to end screen when dead
-        if (health <= 0) {
+        if (health <= 0 && gameStart == false) {
             g.setColor(Color.RED);
             g.clearRect(0, 0, WIDTH, HEIGHT);
             g.drawImage(endScreen, 0, 0, null);
@@ -321,7 +321,7 @@ if (gameStart){
             g.drawImage(hittingLeft, mainChar.x, mainChar.y, null);
         }
 }
-if (!gameStart){
+else if (!gameStart){
     g.drawImage(startMenu, 0, 0, null);
     g.drawString("Start Game", 80, 570);
 }
@@ -770,7 +770,7 @@ if (!gameStart){
     }
 
     private void gameStart() {
-        if (health >=0){
+        if (health <=0){
             gameStart = false;
         }
     }
