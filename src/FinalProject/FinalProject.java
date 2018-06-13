@@ -86,7 +86,7 @@ public class FinalProject extends JComponent implements ActionListener {
     boolean showScore = false;
     int flashDelay = 50;
     boolean flash = false;
-    //Temporary game over screen
+    //Game over screen
     String gameOver = new String("Game Over");
     String stringScore = new String("Your score:" + score);
     //Hitting
@@ -108,12 +108,14 @@ public class FinalProject extends JComponent implements ActionListener {
     int leafX = 100;
     int angle = 0;
     int amplitude = 100;
-    int eyeX = 435;
-    int anotherEyeX = 60;
+    //Restart
     boolean restart = false;
+    //Walk animation for character
     int frame = 0;
     boolean walking = false;
+    //Start screen
     boolean gameStart = false;
+    //Images hand made
     BufferedImage background = loadImage("Background.png");
     BufferedImage boulderPic = loadImage("Boulder.png");
     BufferedImage characterLeft = loadImage("mainChar.png");
@@ -135,12 +137,8 @@ public class FinalProject extends JComponent implements ActionListener {
     BufferedImage heart3 = loadImage("heart3.png");
     BufferedImage walkingSheetLeft = loadImage("walkingLeft.png");
     BufferedImage walkingSheetRight = loadImage("walkingRight.png");
-    BufferedImage enemyWalkingSheetLeft = loadImage("slimeWalkingLeft.png");
-    BufferedImage enemyWalkingSheetRight = loadImage("slimeWalkingRight.png");
     BufferedImage[] walkingAnimationLeft = new BufferedImage[8];
     BufferedImage[] walkingAnimationRight = new BufferedImage[8];
-    BufferedImage[] enemyWalkingAnimationLeft = new BufferedImage[8];
-    BufferedImage[] enemyWalkingAnimationRight = new BufferedImage[8];
     BufferedImage startMenu = loadImage("start.png");
     // GAME VARIABLES END HERE    
     // Constructor to create the Frame and place the panel in
@@ -205,126 +203,130 @@ public class FinalProject extends JComponent implements ActionListener {
 
 
         //Making character
-       
-if (gameStart){
-    
 
-        
-        if (!facingLeft) {
-            g.drawImage(characterRight, mainChar.x, mainChar.y, null);
-            if (walking){
-                g.drawImage(walkingAnimationRight[frame], mainChar.x, mainChar.y, null);
+        if (gameStart) {
+
+
+
+            if (facingRight) {
+                g.drawImage(characterRight, mainChar.x, mainChar.y, null);
+                if (walking) {
+                    g.drawImage(walkingAnimationRight[frame], mainChar.x, mainChar.y, null);
+                }
+            } else if (facingLeft) {
+                g.drawImage(characterLeft, mainChar.x, mainChar.y, null);
+                if (walking) {
+                    g.drawImage(walkingAnimationLeft[frame], mainChar.x, mainChar.y, null);
+                }
             }
-        } else if (facingLeft) {
-            g.drawImage(characterLeft, mainChar.x, mainChar.y, null);
-            if (walking){
-                g.drawImage(walkingAnimationLeft[frame], mainChar.x, mainChar.y, null);
+            //If hitting, make sword appear
+            if (swordApperance && !facingLeft) {
+                g.setColor(Color.YELLOW);
+                //Sword
+
+                g.drawImage(swordRight, mainChar.x + 35, mainChar.y + 15, null);
+                sword.x = mainChar.x + 50;
+                sword.y = mainChar.y + 15;
+
             }
-        }
-        //If hitting, make sword appear
-        if (swordApperance && !facingLeft) {
-            g.setColor(Color.YELLOW);
-            //Sword
+            if (swordApperance && facingLeft) {
+                g.setColor(Color.YELLOW);
+                //Sword
 
-            g.drawImage(swordRight, mainChar.x + 35, mainChar.y + 15, null);
-            sword.x = mainChar.x + 50;
-            sword.y = mainChar.y + 15;
+                g.drawImage(swordLeft, mainChar.x - 50, mainChar.y + 15, null);
+                sword.x = mainChar.x - 50;
+                sword.y = mainChar.y + 15;
 
-        }
-        if (swordApperance && facingLeft) {
-            g.setColor(Color.YELLOW);
-            //Sword
+            }
 
-            g.drawImage(swordLeft, mainChar.x - 50, mainChar.y + 15, null);
-            sword.x = mainChar.x - 50;
-            sword.y = mainChar.y + 15;
-
-        }
-
-        //Drawing enemies
-        g.setColor(Color.RED);
-        if (!movingRight) {
-            g.drawImage(enemyLeft, enemy.x, enemy.y, null);
-        } else if (movingRight) {
-            g.drawImage(enemyRight, enemy.x, enemy.y, null);
-        }
-        if (!movingRight) {
-            g.drawImage(enemy2Left, enemy2.x, enemy2.y, null);
-        } else if (movingRight) {
-            g.drawImage(enemy2Right, enemy2.x, enemy2.y, null);
-        }
-        if (!movingRight) {
-            g.drawImage(eliteEnemyLeft, eliteEnemy.x, eliteEnemy.y, null);
-        } else if (movingRight) {
-            g.drawImage(eliteEnemyRight, eliteEnemy.x, eliteEnemy.y, null);
-        }
-
-        if (!movingRight) {
-            g.drawImage(eliteEnemyLeft, eliteEnemy2.x, eliteEnemy2.y, null);
-        } else if (movingRight) {
-            g.drawImage(eliteEnemyRight, eliteEnemy2.x, eliteEnemy2.y, null);
-        }
-        if (!movingRight) {
-            g.drawImage(eliteEnemyLeft, eliteEnemy3.x, eliteEnemy3.y, null);
-        } else if (movingRight) {
-            g.drawImage(eliteEnemyRight, eliteEnemy3.x, eliteEnemy3.y, null);
-        }
-        g.setColor(Color.GRAY);
-        //Drawing boulder
-
-        g.drawImage(boulderPic, boulder.x, boulder.y, this);
-        //GUI
-        g.setColor(Color.GREEN);
-        g.setFont(BiggerFont);
-        //health and score display
-        g.drawString("Health:", 55, 45);
-        g.drawString("Points: " + score, 700, 50);
-        //Flashing when hit
-        if (flash) {
+            //Drawing enemies
             g.setColor(Color.RED);
-            g.fillRect(0, 0, WIDTH, HEIGHT);
-        }
+            if (!movingRight) {
+                g.drawImage(enemyLeft, enemy.x, enemy.y, null);
+            } else if (movingRight) {
+                g.drawImage(enemyRight, enemy.x, enemy.y, null);
+            }
+            if (!movingRight) {
+                g.drawImage(enemy2Left, enemy2.x, enemy2.y, null);
+            } else if (movingRight) {
+                g.drawImage(enemy2Right, enemy2.x, enemy2.y, null);
+            }
+            if (!movingRight) {
+                g.drawImage(eliteEnemyLeft, eliteEnemy.x, eliteEnemy.y, null);
+            } else if (movingRight) {
+                g.drawImage(eliteEnemyRight, eliteEnemy.x, eliteEnemy.y, null);
+            }
 
-        //Making Leaves
-        g.setColor(Color.GREEN);
-        for (int i = 0; i < 2; i++) {
-            g.drawImage(leaf, leafX, leafY, null);
-        }
-        //Take to end screen when dead
-        if (health <= 0 && gameStart == false) {
-            g.setColor(Color.RED);
-            g.clearRect(0, 0, WIDTH, HEIGHT);
-            g.drawImage(endScreen, 0, 0, null);
+            if (!movingRight) {
+                g.drawImage(eliteEnemyLeft, eliteEnemy2.x, eliteEnemy2.y, null);
+            } else if (movingRight) {
+                g.drawImage(eliteEnemyRight, eliteEnemy2.x, eliteEnemy2.y, null);
+            }
+            if (!movingRight) {
+                g.drawImage(eliteEnemyLeft, eliteEnemy3.x, eliteEnemy3.y, null);
+            } else if (movingRight) {
+                g.drawImage(eliteEnemyRight, eliteEnemy3.x, eliteEnemy3.y, null);
+            }
+            g.setColor(Color.GRAY);
+            //Drawing boulder
+
+            g.drawImage(boulderPic, boulder.x, boulder.y, this);
+            //GUI
+            g.setColor(Color.GREEN);
             g.setFont(BiggerFont);
-            g.drawString(gameOver, 400, 300);
-            g.drawString("Your Score: " + score, 400, 350);
-            g.drawString("Press X to exit game", 350, 450);
-            g.drawString("Press R to restart game", 350, 550);
+            //health and score display
+            g.drawString("Health:", 55, 45);
+            g.drawString("Points: " + score, 700, 50);
+            //Flashing when hit
+            if (flash) {
+                g.setColor(Color.RED);
+                g.fillRect(0, 0, WIDTH, HEIGHT);
+            }
 
-        }
+            //Making Leaves
+            g.setColor(Color.GREEN);
+            for (int i = 0; i < 2; i++) {
+                g.drawImage(leaf, leafX, leafY, null);
+            }
+            //Take to end screen when dead
+            if (health <= 0 && gameStart) {
+                g.setColor(Color.RED);
+                g.clearRect(0, 0, WIDTH, HEIGHT);
+                g.drawImage(endScreen, 0, 0, null);
+                g.setFont(BiggerFont);
+                g.drawString(gameOver, 400, 300);
+                g.drawString("Your Score: " + score, 400, 350);
+                g.drawString("Press X to exit game", 350, 450);
+                g.drawString("Press R to restart game", 350, 550);
 
-        //Heart display depending on current health
-        if (health == 1) {
-            g.drawImage(heart1, 50, 50, 40, 40, null);
-        }
-        if (health == 2) {
-            g.drawImage(heart2, 50, 50, 82, 40, null);
-        }
-        if (health == 3) {
-            g.drawImage(heart3, 50, 50, 124, 40, null);
-        }
+            }
 
-        if (hitting && facingRight) {
-            g.drawImage(hittingRight, mainChar.x, mainChar.y, null);
+            //Heart display depending on current health
+            if (health == 1) {
+                g.drawImage(heart1, 50, 50, 40, 40, null);
+            }
+            if (health == 2) {
+                g.drawImage(heart2, 50, 50, 82, 40, null);
+            }
+            if (health == 3) {
+                g.drawImage(heart3, 50, 50, 124, 40, null);
+            }
+
+            if (hitting && facingRight) {
+                g.drawImage(hittingRight, mainChar.x, mainChar.y, null);
+            }
+            if (hitting && facingLeft) {
+                g.drawImage(hittingLeft, mainChar.x, mainChar.y, null);
+            }
+        } else if (!gameStart) {
+            g.drawImage(startMenu, 0, 0, null);
+            g.setFont(BiggerFont);
+            g.setColor(Color.GREEN);
+            g.drawString("Start Game", 40, 450);
+            g.drawString("Attack", 350, 650);
+            g.drawString("Move", 730, 600);
+            g.drawString("Jump", 730, 400);
         }
-        if (hitting && facingLeft) {
-            g.drawImage(hittingLeft, mainChar.x, mainChar.y, null);
-        }
-}
-else if (!gameStart){
-    g.drawImage(startMenu, 0, 0, null);
-    g.drawString("Start Game", 80, 570);
-}
 
 
         //}
@@ -335,11 +337,11 @@ else if (!gameStart){
     // This is run before the game loop begins!
     public void preSetup() {
         // Any of your pre setup before the loop starts should go here
-        for(int i = 0; i < walkingAnimationLeft.length;i++){
-            walkingAnimationLeft[i] = walkingSheetLeft.getSubimage((i%4)*30, (i/4)*50, 30, 50);
+        for (int i = 0; i < walkingAnimationLeft.length; i++) {
+            walkingAnimationLeft[i] = walkingSheetLeft.getSubimage((i % 4) * 30, (i / 4) * 50, 30, 50);
         }
-        for(int i = 0; i < walkingAnimationRight.length;i++){
-            walkingAnimationRight[i] = walkingSheetRight.getSubimage((i%4)*30, (i/4)*50, 30, 50);
+        for (int i = 0; i < walkingAnimationRight.length; i++) {
+            walkingAnimationRight[i] = walkingSheetRight.getSubimage((i % 4) * 30, (i / 4) * 50, 30, 50);
         }
     }
 
@@ -367,7 +369,13 @@ else if (!gameStart){
         //Movement for character
         if (charRight) {
             mainChar.x = mainChar.x + charSpeed;
+            facingLeft = false;
+            facingRight = true;
+            walking = true;
         } else if (charLeft) {
+            facingLeft = true;
+            facingRight = false;
+            walking = true;
             mainChar.x = mainChar.x - charSpeed;
         }
         //creating so that character can't move off screen
@@ -533,13 +541,13 @@ else if (!gameStart){
             //When sword touches enemy, it "dies" and another spawns on top of screen.
             if (swordApperance) {
                 if (sword.intersects(enemy)) {
-                    enemy.x = (int) (Math.random() * 1000) + 0;
+                    enemy.x = (int) (Math.random() * 900) + 100;
                     enemy.y = 0;
                     score = score + 100;
                 }
                 //If sword touches the second enemy, player gains points and enemy respawns somewhere randomly
                 if (sword.intersects(enemy2)) {
-                    enemy2.x = (int) (Math.random() * 1000) + 0;
+                    enemy2.x = (int) (Math.random() * 900) + 100;
                     enemy2.y = 0;
                     score = score + 100;
                 }
@@ -556,7 +564,7 @@ else if (!gameStart){
 
                     }
                     if (eliteHealth == 0) {
-                        eliteEnemy.x = (int) (Math.random() * 1000) + 0;
+                        eliteEnemy.x = (int) (Math.random() * 900) + 100;
                         eliteEnemy.y = -50;
                         score = score + 250;
                         eliteHealth = 2;
@@ -574,7 +582,7 @@ else if (!gameStart){
 
                     }
                     if (eliteHealth2 == 0) {
-                        eliteEnemy2.x = (int) (Math.random() * 1000) + 0;
+                        eliteEnemy2.x = (int) (Math.random() * 900) + 100;
                         eliteEnemy2.y = -50;
                         score = score + 250;
                         eliteHealth2 = 2;
@@ -592,7 +600,7 @@ else if (!gameStart){
 
                     }
                     if (eliteHealth3 == 0) {
-                        eliteEnemy3.x = (int) (Math.random() * 1000) + 0;
+                        eliteEnemy3.x = (int) (Math.random() * 900) + 100;
                         eliteEnemy3.y = -50;
                         score = score + 250;
                         eliteHealth3 = 2;
@@ -761,17 +769,17 @@ else if (!gameStart){
     }
 
     private void walkingAnimation() {
-        if (walking){
+        if (walking) {
             frame++;
-            if (frame == 8){
+            if (frame == 8) {
                 frame = 0;
             }
         }
     }
 
     private void gameStart() {
-        if (health <=0){
-            gameStart = false;
+        if (health <= 0) {
+            gameStart = true;
         }
     }
 
@@ -808,13 +816,12 @@ else if (!gameStart){
             int keyCode = e.getKeyCode();
             if (keyCode == KeyEvent.VK_RIGHT) {
                 charRight = true;
-                facingLeft = false;
-                facingRight = true;
-                walking = true;
+
+
             } else if (keyCode == KeyEvent.VK_LEFT) {
                 charLeft = true;
-                facingLeft = true;
-                walking = true;
+
+
 
             }
             if (keyCode == KeyEvent.VK_UP) {
@@ -824,18 +831,15 @@ else if (!gameStart){
             if (keyCode == KeyEvent.VK_SPACE) {
                 hitting = true;
                 swordApperance = true;
-                if (health <= 0){
+                if (health <= 0) {
                     hitting = false;
                 }
 
-                
-
-
 
             }
-            if (keyCode == KeyEvent.VK_S){
-                    gameStart = true;
-                }
+            if (keyCode == KeyEvent.VK_S) {
+                gameStart = true;
+            }
             if (health <= 0) {
                 if (keyCode == KeyEvent.VK_X) {
                     System.exit(0);
@@ -853,14 +857,12 @@ else if (!gameStart){
             int keyCode = e.getKeyCode();
             if (keyCode == KeyEvent.VK_RIGHT) {
                 charRight = false;
-                facingLeft = false;
-                facingRight = true;
                 walking = false;
+
             } else if (keyCode == KeyEvent.VK_LEFT) {
                 charLeft = false;
-                facingLeft = true;
-                facingRight = false;
                 walking = false;
+
             }
 
             if (keyCode == KeyEvent.VK_SPACE) {
@@ -874,9 +876,9 @@ else if (!gameStart){
             if (keyCode == KeyEvent.VK_R) {
                 restart = false;
             }
-            if (keyCode == KeyEvent.VK_S){
-                    gameStart = true;
-                }
+            if (keyCode == KeyEvent.VK_S) {
+                gameStart = true;
+            }
 
 
         }
@@ -884,7 +886,7 @@ else if (!gameStart){
 
     @Override
     public void actionPerformed(ActionEvent ae) {
-        
+
         gameLoop();
         repaint();
     }
