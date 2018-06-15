@@ -50,6 +50,7 @@ public class FinalProject extends JComponent implements ActionListener {
     int eliteHealth = 2;
     int eliteHealth2 = 2;
     int eliteHealth3 = 2;
+    int bossHealth = 5;
     //Boulder
     Rectangle boulder = new Rectangle(-100, mainChar.y, 50, 50);
     //Sword
@@ -113,8 +114,10 @@ public class FinalProject extends JComponent implements ActionListener {
     //Walk animation for character
     int frame = 0;
     boolean walking = false;
+    int enemyFrame = 0;
     //Start screen
     boolean gameStart = false;
+    boolean story = false;
     //Images hand made
     BufferedImage background = loadImage("Background.png");
     BufferedImage boulderPic = loadImage("Boulder.png");
@@ -139,7 +142,11 @@ public class FinalProject extends JComponent implements ActionListener {
     BufferedImage walkingSheetRight = loadImage("walkingRight.png");
     BufferedImage[] walkingAnimationLeft = new BufferedImage[8];
     BufferedImage[] walkingAnimationRight = new BufferedImage[8];
+    BufferedImage walkingBossSheet = loadImage("walkingBoss.png");
+    BufferedImage[] walkingBoss = new BufferedImage[2];
     BufferedImage startMenu = loadImage("start.png");
+    BufferedImage storyScreen = loadImage("story.png");
+    
     // GAME VARIABLES END HERE    
     // Constructor to create the Frame and place the panel in
     // You will learn more about this in Grade 12 :)
@@ -267,6 +274,7 @@ public class FinalProject extends JComponent implements ActionListener {
             } else if (movingRight) {
                 g.drawImage(eliteEnemyRight, eliteEnemy3.x, eliteEnemy3.y, null);
             }
+            
             g.setColor(Color.GRAY);
             //Drawing boulder
 
@@ -318,6 +326,10 @@ public class FinalProject extends JComponent implements ActionListener {
             if (hitting && facingLeft) {
                 g.drawImage(hittingLeft, mainChar.x, mainChar.y, null);
             }
+            if (story){
+                System.out.println(story);
+                g.drawImage(storyScreen, 0, 0, null);
+            }
         } else if (!gameStart) {
             g.drawImage(startMenu, 0, 0, null);
             g.setFont(BiggerFont);
@@ -326,6 +338,8 @@ public class FinalProject extends JComponent implements ActionListener {
             g.drawString("Attack", 350, 650);
             g.drawString("Move", 730, 600);
             g.drawString("Jump", 730, 400);
+            g.drawString("Hold L for story in game (after start screen)", 200, 200);
+            
         }
 
 
@@ -342,6 +356,9 @@ public class FinalProject extends JComponent implements ActionListener {
         }
         for (int i = 0; i < walkingAnimationRight.length; i++) {
             walkingAnimationRight[i] = walkingSheetRight.getSubimage((i % 4) * 30, (i / 4) * 50, 30, 50);
+        }
+        for (int i = 0; i < walkingBoss.length; i++) {
+            walkingBoss[i] = walkingBossSheet.getSubimage((i % 2) * 200, (i / 2) * 200, 200, 200);
         }
     }
 
@@ -532,6 +549,9 @@ public class FinalProject extends JComponent implements ActionListener {
         if (score >= 8000) {
             mobFallSpeed = 6;
         }
+        
+            
+        
 
     }
 
@@ -606,7 +626,8 @@ public class FinalProject extends JComponent implements ActionListener {
                         eliteHealth3 = 2;
                     }
                 }
-
+//If sword touches the boss enemy, enemy loses one health and bounces back 
+                
 
 
             }
@@ -678,8 +699,11 @@ public class FinalProject extends JComponent implements ActionListener {
         if (System.currentTimeMillis() > flashUntil) {
             flash = false;
         }
+        
+        
+        
 
-
+        
     }
 
     private void jump() {
@@ -775,6 +799,8 @@ public class FinalProject extends JComponent implements ActionListener {
                 frame = 0;
             }
         }
+        
+        
     }
 
     private void gameStart() {
@@ -849,6 +875,11 @@ public class FinalProject extends JComponent implements ActionListener {
                     gameStart = true;
                 }
             }
+            if (gameStart){
+                if (keyCode == KeyEvent.VK_L){
+                    story = true;
+                }
+            }
         }
 
         // if a key has been released
@@ -880,6 +911,10 @@ public class FinalProject extends JComponent implements ActionListener {
                 gameStart = true;
             }
 
+                if (keyCode == KeyEvent.VK_L){
+                    story = false;
+                
+            }
 
         }
     }
