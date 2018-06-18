@@ -29,11 +29,11 @@ public class FinalProject extends JComponent implements ActionListener {
     static final int WIDTH = 1000;
     static final int HEIGHT = 700;
     //Title of the window
-    String title = "My Game";
+    String title = "MoonFallen";
     // sets the framerate and delay for our game
     // this calculates the number of milliseconds per frame
     // you just need to select an approproate framerate
-    int desiredFPS = 60;
+    int desiredFPS = 120;
     int desiredTime = Math.round((1000 / desiredFPS));
     // timer used to run the game loop
     // this is what keeps our time running smoothly :)
@@ -81,6 +81,7 @@ public class FinalProject extends JComponent implements ActionListener {
     int score = 0;
     //Making a new font for end screen
     Font BiggerFont = new Font("arial", Font.BOLD, 36);
+    Font StoryFont = new Font("arial", Font.ITALIC, 20);
     //Getting hit (flashing)
     long flashUntil = System.currentTimeMillis();
     long swordDelay = 200;
@@ -146,11 +147,10 @@ public class FinalProject extends JComponent implements ActionListener {
     BufferedImage[] walkingBoss = new BufferedImage[2];
     BufferedImage startMenu = loadImage("start.png");
     BufferedImage storyScreen = loadImage("story.png");
-    
+
     // GAME VARIABLES END HERE    
     // Constructor to create the Frame and place the panel in
     // You will learn more about this in Grade 12 :)
-
     public FinalProject() {
         // creates a windows to show my game
         JFrame frame = new JFrame(title);
@@ -210,11 +210,10 @@ public class FinalProject extends JComponent implements ActionListener {
 
 
         //Making character
-
         if (gameStart) {
 
 
-
+            // Make character face the way he is walking
             if (facingRight) {
                 g.drawImage(characterRight, mainChar.x, mainChar.y, null);
                 if (walking) {
@@ -230,16 +229,14 @@ public class FinalProject extends JComponent implements ActionListener {
             if (swordApperance && !facingLeft) {
                 g.setColor(Color.YELLOW);
                 //Sword
-
                 g.drawImage(swordRight, mainChar.x + 35, mainChar.y + 15, null);
                 sword.x = mainChar.x + 50;
                 sword.y = mainChar.y + 15;
-
             }
+            //Flip image of sword when walking left
             if (swordApperance && facingLeft) {
                 g.setColor(Color.YELLOW);
                 //Sword
-
                 g.drawImage(swordLeft, mainChar.x - 50, mainChar.y + 15, null);
                 sword.x = mainChar.x - 50;
                 sword.y = mainChar.y + 15;
@@ -253,6 +250,7 @@ public class FinalProject extends JComponent implements ActionListener {
             } else if (movingRight) {
                 g.drawImage(enemyRight, enemy.x, enemy.y, null);
             }
+            //Flip image when walking other way
             if (!movingRight) {
                 g.drawImage(enemy2Left, enemy2.x, enemy2.y, null);
             } else if (movingRight) {
@@ -274,7 +272,7 @@ public class FinalProject extends JComponent implements ActionListener {
             } else if (movingRight) {
                 g.drawImage(eliteEnemyRight, eliteEnemy3.x, eliteEnemy3.y, null);
             }
-            
+
             g.setColor(Color.GRAY);
             //Drawing boulder
 
@@ -282,9 +280,12 @@ public class FinalProject extends JComponent implements ActionListener {
             //GUI
             g.setColor(Color.GREEN);
             g.setFont(BiggerFont);
-            //health and score display
+            //health and score GUI
             g.drawString("Health:", 55, 45);
             g.drawString("Points: " + score, 700, 50);
+            g.drawImage(storyScreen, 200, 20, 50, 50, null);
+            g.setColor(Color.BLACK);
+            g.drawString("L", 210, 55);
             //Flashing when hit
             if (flash) {
                 g.setColor(Color.RED);
@@ -302,10 +303,22 @@ public class FinalProject extends JComponent implements ActionListener {
                 g.clearRect(0, 0, WIDTH, HEIGHT);
                 g.drawImage(endScreen, 0, 0, null);
                 g.setFont(BiggerFont);
-                g.drawString(gameOver, 400, 300);
+                //Score and controls for end screen
                 g.drawString("Your Score: " + score, 400, 350);
                 g.drawString("Press X to exit game", 350, 450);
                 g.drawString("Press R to restart game", 350, 550);
+                //If player goes past 5000 points and dies, they recieve a "good" text
+                if (score >= 5000) {
+                    g.setFont(BiggerFont);
+                    g.setColor(Color.GREEN);
+                    g.drawString("You died a glorious death, Moongale will remember you!", 25, 300);
+                }
+                //If player dies below 5000 points, they recieve a "bad" message.
+                if (score <= 5000) {
+                    g.setFont(BiggerFont);
+                    g.setColor(Color.RED);
+                    g.drawString("You tried, but Moongale will fall...", 250, 300);
+                }
 
             }
 
@@ -326,9 +339,19 @@ public class FinalProject extends JComponent implements ActionListener {
             if (hitting && facingLeft) {
                 g.drawImage(hittingLeft, mainChar.x, mainChar.y, null);
             }
-            if (story){
-                System.out.println(story);
+            if (story) {
+
                 g.drawImage(storyScreen, 0, 0, null);
+                g.setFont(StoryFont);
+                g.setColor(Color.BLACK);
+                g.drawString("Great evil has fallen in Moongale! A hero from a", 30, 100);
+                g.drawString("local village decided to confront the evil.", 30, 140);
+                g.drawString("As the hero leaves the village, he notices things", 30, 180);
+                g.drawString("falling from the sky. With closer inspection, he", 30, 220);
+                g.drawString("quickly comes to realize that they are being under", 30, 260);
+                g.drawString("attack! Now, it is your time to redeem your", 30, 300);
+                g.drawString("glorious reputation as a hero! Go, defend", 30, 340);
+                g.drawString("Moongale!", 30, 380);
             }
         } else if (!gameStart) {
             g.drawImage(startMenu, 0, 0, null);
@@ -338,8 +361,10 @@ public class FinalProject extends JComponent implements ActionListener {
             g.drawString("Attack", 350, 650);
             g.drawString("Move", 730, 600);
             g.drawString("Jump", 730, 400);
-            g.drawString("Hold L for story in game (after start screen)", 200, 200);
-            
+            g.setFont(StoryFont);
+            g.setColor(Color.BLACK);
+            g.drawString("Hold L for story in game (after start screen)", 300, 200);
+
         }
 
 
@@ -478,22 +503,14 @@ public class FinalProject extends JComponent implements ActionListener {
             movingRight = false;
         }
 
-
+        //Make enemy stop at a certain distance and walk other way
         if (enemy2.x == stopPosRight) {
             movingRight = false;
         } else if (enemy2.x == stopPosLeft) {
             movingRight = true;
         }
-        if (enemy2.x > WIDTH) {
-            enemy2.x = WIDTH - enemy2.width;
-        } else if (enemy2.x < 0) {
-            enemy2.x = 0;
-        }
-        if (enemy2.x <= 0) {
-            movingRight = true;
-        } else if (enemy2.x >= WIDTH) {
-            movingRight = false;
-        }
+
+
         //When over 4000 points, spawn 2 more enemies (max amount of enemies on screen now.. 5)
         if (score >= 4000) {
             if (eliteEnemy2.y < 325) {
@@ -549,10 +566,6 @@ public class FinalProject extends JComponent implements ActionListener {
         if (score >= 8000) {
             mobFallSpeed = 6;
         }
-        
-            
-        
-
     }
 
     private void sword() {
@@ -626,20 +639,7 @@ public class FinalProject extends JComponent implements ActionListener {
                         eliteHealth3 = 2;
                     }
                 }
-//If sword touches the boss enemy, enemy loses one health and bounces back 
-                
-
-
             }
-
-
-
-
-
-
-
-
-
         }
     }
 
@@ -656,6 +656,7 @@ public class FinalProject extends JComponent implements ActionListener {
                 mainChar.x = mainChar.x + 50;
 
             }
+            //Flashing when hit
             flash = true;
             flashUntil = System.currentTimeMillis() + flashDelay;
         }
@@ -668,7 +669,7 @@ public class FinalProject extends JComponent implements ActionListener {
             else if (eliteEnemy.x < mainChar.x) {
                 mainChar.x = mainChar.x + 50;
             }
-
+            //Flashing when hit
             flash = true;
             flashUntil = System.currentTimeMillis() + flashDelay;
         }
@@ -681,6 +682,7 @@ public class FinalProject extends JComponent implements ActionListener {
             else if (enemy2.x < mainChar.x) {
                 mainChar.x = mainChar.x + 50;
             }
+            //Flashing when hit
             flash = true;
             flashUntil = System.currentTimeMillis() + flashDelay;
         }
@@ -692,18 +694,19 @@ public class FinalProject extends JComponent implements ActionListener {
             else if (boulder.x < mainChar.x) {
                 mainChar.x = mainChar.x + 50;
             }
+            //Flashing when hit
             flash = true;
             flashUntil = System.currentTimeMillis() + flashDelay;
         }
-
+        //Makes the flash so that it's only a second
         if (System.currentTimeMillis() > flashUntil) {
             flash = false;
         }
-        
-        
-        
 
-        
+
+
+
+
     }
 
     private void jump() {
@@ -723,6 +726,7 @@ public class FinalProject extends JComponent implements ActionListener {
     }
 
     private void collisionWithGround() {
+        //Make it so that the character can't go in the ground
         if (mainChar.y > 350) {
             mainChar.y = 350;
         }
@@ -759,12 +763,13 @@ public class FinalProject extends JComponent implements ActionListener {
     }
 
     private void leaf() {
-
+        //Make leaf go right
         leafX = leafX + 5;
-
+        //Make leaf reset if it goes past screen
         if (leafX > WIDTH) {
             leafX = 0;
         }
+        //Make leaf move in waves
         int amount = (int) (amplitude * Math.sin(Math.toRadians(angle)));
         leafY = leafYStart + amount;
 
@@ -793,17 +798,19 @@ public class FinalProject extends JComponent implements ActionListener {
     }
 
     private void walkingAnimation() {
+        //When walking, change frames... The animation of the legs
         if (walking) {
             frame++;
             if (frame == 8) {
                 frame = 0;
             }
         }
-        
-        
+
+
     }
 
     private void gameStart() {
+        //Game is over when has no health
         if (health <= 0) {
             gameStart = true;
         }
@@ -875,8 +882,8 @@ public class FinalProject extends JComponent implements ActionListener {
                     gameStart = true;
                 }
             }
-            if (gameStart){
-                if (keyCode == KeyEvent.VK_L){
+            if (gameStart) {
+                if (keyCode == KeyEvent.VK_L) {
                     story = true;
                 }
             }
@@ -911,9 +918,9 @@ public class FinalProject extends JComponent implements ActionListener {
                 gameStart = true;
             }
 
-                if (keyCode == KeyEvent.VK_L){
-                    story = false;
-                
+            if (keyCode == KeyEvent.VK_L) {
+                story = false;
+
             }
 
         }
